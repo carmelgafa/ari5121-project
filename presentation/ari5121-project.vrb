@@ -1,0 +1,34 @@
+\frametitle{Example: Applying a Join Function}
+\textbf{Join Function:} $f = (L, SP, EW, JD)$
+	\begin{itemize}
+		\item \textbf{L}: Lower-casing (Preprocessing)
+		\item \textbf{SP}: Space Tokenization
+		\item \textbf{EW}: Equal Weights
+		\item \textbf{JD}: Jaccard Distance
+	\end{itemize}
+	
+	\vspace{1em}
+	\textbf{Inputs:}
+	\begin{itemize}
+		\item $l = \texttt{"2012 tigers lsu baseball team"}$
+		\item $r = \texttt{"2012 lsu baseball team"}$
+	\end{itemize}
+	
+	\vspace{1em}
+	\textbf{Tokenization (SP):}
+	\begin{itemize}
+		\item $l \rightarrow \{2012, tigers, lsu, baseball, team\}$
+		\item $r \rightarrow \{2012, lsu, baseball, team\}$
+	\end{itemize}
+	
+	\vspace{1em}
+	\textbf{Jaccard Distance:}
+	\begin{itemize}
+		\item $A \cap B = \{2012, lsu, baseball, team\} \rightarrow |A \cap B| = 4$
+		\item $A \cup B = \{2012, tigers, lsu, baseball, team\} \rightarrow |A \cup B| = 5$
+		\item $\text{Jaccard Similarity} = \frac{4}{5} = 0.8$
+		\item $\text{Jaccard Distance} = 1 - 0.8 = 0.2$
+	\end{itemize}
+	
+	\vspace{1em}
+	\textbf{Result:} $f(l, r) = 0.2$
