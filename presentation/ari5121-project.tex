@@ -308,6 +308,135 @@
 	
 \end{frame}
 
+\begin{frame}{Evaluating Join Quality: Precision}
+	
+	Given two tables $R$ and $L$, and a \textbf{space of join configurations} $\mathcal{S}$, the objective is to find a subset $U \subseteq \mathcal{S}$ that produces \textbf{good fuzzy join results}.
+	
+	Let:
+	\begin{itemize}
+		\item $J_U$ be the fuzzy join mapping induced by configuration set $U$
+		\item $J_G$ be the \textbf{ground truth} join mapping — the ideal join result
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textbf{Precision} measures how many of the predicted joins are correct:
+	
+	\[
+	\text{precision}(U) =
+	\frac{
+		\underbrace{|\{ r \in R\ |\ J_U(r) \neq \emptyset,\ J_U(r) = J_G(r) \}|}_{\text{True Positives (TP)}}
+	}{
+		\underbrace{|\{ r \in R\ |\ J_U(r) \neq \emptyset \}|}_{\text{TP + FP (all predicted joins)}}
+	}
+	\tag{3}
+	\]
+	
+	\begin{itemize}
+		\item \textbf{Numerator (TP)}: Records where a join was predicted and it matched the ground truth.
+		\item \textbf{Denominator (TP + FP)}: All records where a join was predicted (correct or not).
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}{Evaluating Join Quality: Recall}
+	
+	\textbf{Recall} measures how many of the correct (ground truth) joins were successfully predicted:
+	
+	\[
+	\text{recall}(U) =
+	\underbrace{|\{ r \in R\ |\ J_U(r) \neq \emptyset,\ J_U(r) = J_G(r) \}|}_{\text{True Positives (TP)}}
+	\tag{4}
+	\]
+	
+	\begin{itemize}
+		\item This is the \textbf{absolute count of True Positives}, i.e., records for which:
+		\begin{itemize}
+			\item A join was predicted ($J_U(r) \neq \emptyset$), and
+			\item It matches the ground truth ($J_U(r) = J_G(r)$)
+		\end{itemize}
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textbf{False Negatives (FN)} — cases where a correct join was missed — are defined as:
+	\[
+	\text{FN} = |\{ r \in R\ |\ J_G(r) \neq \emptyset,\ J_U(r) = \emptyset \}|
+	\]
+	
+	\textit{Note:} The denominator $TP + FN$ is constant across all $U$ for a fixed dataset, so it is omitted in comparisons.
+	
+\end{frame}
+
+
+\begin{frame}{Estimating Precision/Recall for a Single Join Configuration}
+	
+	Given:
+	\begin{itemize}
+		\item A \textbf{single join configuration} $C = \langle f, \theta \rangle$
+		\item Two tables:
+		\begin{itemize}
+			\item $L$: reference table
+			\item $R$: query table
+		\end{itemize}
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textbf{Assumption: Complete Reference Table $L$}
+	\begin{itemize}
+		\item $L$ is assumed to contain \textbf{all possible true matches} for records in $R$.
+		\item Ensures that for each $r \in R$, there exists a correct match $l \in L$.
+		\item Simplifies analysis by reducing the chance of missing true positives due to an incomplete reference.
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textbf{Geometric View of the Distance Function $f$}
+	\begin{itemize}
+		\item Join function $f$ embeds records into a \textbf{metric space}.
+		\item Records are modeled as points on a \textbf{unit grid}.
+		\item Each $l \in L$ is surrounded by \textbf{close variants} (differing by a token, character, etc.).
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\setbeamercolor{block title}{bg=blue!10, fg=black}
+	\setbeamercolor{block body}{bg=blue!5, fg=black}
+	\begin{block}{Analogy: Stars and Planets}
+		\begin{itemize}
+			\item Reference records $l \in L$ are like \textbf{stars} on a grid.
+			\item Query records $r \in R$ are like \textbf{planets} that orbit these stars.
+			\item Identifying the best join $J_C(r)$ is like determining \textbf{which star a planet orbits}.
+		\end{itemize}
+	\end{block}
+	
+\end{frame}
+
+
+\begin{frame}{Safe Joins and the Geometry of Fuzzy Matching}
+	
+	\textbf{Safe Joins with a Complete $L$}
+	\begin{itemize}
+		\item Define the \textbf{grid width} $w$: typical distance between a record $l$ and its closest neighbors in $L$.
+		\item A join is considered \textbf{safe} if the distance $d = f(l, r)$ satisfies:
+		\[
+		d < \frac{w}{2}
+		\]
+		\item This guarantees that $r$ lies \textbf{closer to its true match} $l$ than to any other reference point.
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textbf{Why This Matters:}
+	\begin{itemize}
+		\item Ensures high \textbf{precision} — avoiding false positives caused by ambiguous joins.
+		\item Avoids joining $r$ to an incorrect $l'$ that lies at a similar distance.
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textit{Analogy:}
+	\begin{itemize}
+		\item A planet that lies \textbf{equidistant} between two stars (at $\frac{w}{2}$ each) \textbf{cannot be confidently claimed by either}.
+		\item In fuzzy joining, such cases are inherently \textbf{ambiguous} and risky to resolve.
+	\end{itemize}
+	
+\end{frame}
 
 
 
