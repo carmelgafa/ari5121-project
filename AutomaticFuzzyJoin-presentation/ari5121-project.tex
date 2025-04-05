@@ -710,92 +710,115 @@
 \end{frame}
 
 
+\setbeamercolor{myblock}{bg=gray!15!white, fg=black}
+	\setbeamercolor{myexampleblock}{bg=yellow!10, fg=black}
 
-\begin{frame}{Example: 3-Gram blocking using TF-IDF}
+\begin{frame}{1. 3-Gram blocking using TF-IDF}
 	
-	\setbeamercolor{myblock}{bg=gray!15!white, fg=black}
+
 	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{block body}
 		\texttt{LL, LR $\leftarrow$ apply 3-gram blocking on $L–L$ and $L–R$}
 	\end{beamercolorbox}
 	
 	
 	\vspace{0.5em}
-	\textbf{Reference Table $L$:}
-	\begin{tabular}{ll}
-		$l_1$ & \texttt{"john smith"} \\
-		$l_2$ & \texttt{"jane smythe"} \\
-		$l_3$ & \texttt{"alice johnson"}
-	\end{tabular}
 	
-	\vspace{0.5em}
-	\textbf{Query Record $r_1$:} \texttt{"jon smyth"}
+
+	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{myexampleblock}
+		\textbf{Reference Table $L$:}
+		\begin{tabular}{ll}
+			$l_1$ & \texttt{"john smith"} \\
+			$l_2$ & \texttt{"jane smythe"} \\
+			$l_3$ & \texttt{"alice johnson"}
+		\end{tabular}
+		
+		\vspace{0.5em}
+		\textbf{Query Record $r_1$:} \texttt{"jon smyth"}
+		
+		\vspace{0.5em}
+		\textbf{Step 1: Preprocessing (P)}
+		\begin{itemize}
+			\item Lowercasing (already lowercase)
+			\item Add padding for 3-grams: e.g., \texttt{"john smith"} $\rightarrow$ \texttt{"\#\#john\#smith\#\#"}
+		\end{itemize}
+		
+		\vspace{0.5em}
+		\textbf{Step 2: Tokenization (T)}
+		\begin{itemize}
+			\item $r_1$: \texttt{\#\#j, \#jo, jon, on\# , n\#s, \#sm, smy, myt, yth, th\#, h\#\#}
+			\item $l_1$, $l_2$: similar 3-gram sequences
+		\end{itemize}
+		
+		\vspace{0.5em}
+		\textbf{Step 3: Token Weighting (W)}
+		\begin{itemize}
+			\item Use TF-IDF to emphasize rare, meaningful trigrams (e.g., \texttt{smy}, \texttt{yth})
+			\item $r_1$–$l_2$: \textbf{High score(rare overlapping trigrams)}, $r_1$–$l_1$: Medium (more common overlap), $r_1$–$l_3$: Zero (no shared trigrams)
+		\end{itemize}
+		
+		\vspace{0.5em}
+		\textbf{Blocking Result:}
+		\begin{itemize}
+			\item Only compare $r_1$ with $l_1$, $l_2$ $\rightarrow$ prune $l_3$
+		\end{itemize}
+	\end{beamercolorbox}
 	
-	\vspace{0.5em}
-	\textbf{Step 1: Preprocessing (P)}
-	\begin{itemize}
-		\item Lowercasing (already lowercase)
-		\item Add padding for 3-grams: e.g., \texttt{"john smith"} $\rightarrow$ \texttt{"\#\#john\#smith\#\#"}
-	\end{itemize}
-	
-	\vspace{0.5em}
-	\textbf{Step 2: Tokenization (T)}
-	\begin{itemize}
-		\item $r_1$: \texttt{\#\#j, \#jo, jon, on\# , n\#s, \#sm, smy, myt, yth, th\#, h\#\#}
-		\item $l_1$, $l_2$: similar 3-gram sequences
-	\end{itemize}
-	
-	\vspace{0.5em}
-	\textbf{Step 3: Token Weighting (W)}
-	\begin{itemize}
-		\item Use TF-IDF to emphasize rare, meaningful trigrams (e.g., \texttt{smy}, \texttt{yth})
-		\item $r_1$–$l_2$: \textbf{High score(rare overlapping trigrams)}, $r_1$–$l_1$: Medium (more common overlap), $r_1$–$l_3$: Zero (no shared trigrams)
-	\end{itemize}
-	
-	\vspace{0.5em}
-	\textbf{Blocking Result:}
-	\begin{itemize}
-		\item Only compare $r_1$ with $l_1$, $l_2$ $\rightarrow$ prune $l_3$
-	\end{itemize}
 	
 \end{frame}
 
 
-\begin{frame}{Optimization: Filtering with Negative Rules}
-	\textit{\small Assumption: Although 3-gram blocking may have pruned $l_3$, we assume here it was retained due to weak overlap, allowing us to illustrate negative-rule filtering.}
+\begin{frame}{2. Optimization - filtering with negative rules}
 	
-	\vspace{1em}
-	\textbf{Goal:} Use \textbf{obvious non-matches} in $L$–$L$ to learn rules that help \textbf{filter unlikely $L$–$R$ pairs} before costly distance computations.
-	
+
+	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{block body}
+		\texttt{LR $\leftarrow$ Learn negative-rules from \textit{LL} and apply rules on \textit{LR} (Alg. 2)}
+	\end{beamercolorbox}
+
 	\vspace{0.5em}
-	\textbf{Step 1: Generate $LL$ — Self-Join on $L$ using 3-gram blocking}
-	\begin{tabular}{llll}
-		\textbf{Pair} & \textbf{Shared 3-grams} & \textbf{Interpretation} \\
-		\hline
-		$l_1$ vs $l_2$ & \texttt{sm, smy, th}  & Possibly similar \\
-		$l_1$ vs $l_3$ & \texttt{jo, on}       & Clearly different \\
-		$l_2$ vs $l_3$ & Weak overlap          & Probably different \\
-	\end{tabular}
-	
-	\vspace{0.5em}
-	\textbf{Learn Negative Rule:} \\
-	\textit{"If 3-gram overlap $\leq 2$, treat as a non-match."}
-	
-	\vspace{0.5em}
-	\textbf{Step 2: Apply Rule on $LR$ Candidate Pairs}
-	\begin{tabular}{lllll}
-		\textbf{Pair} & \textbf{Overlap} & \textbf{Apply Rule?} & \textbf{Keep?} \\
-		\hline
-		$r_1$, $l_1$  & $\sim 4$  & No  & Yes \\
-		$r_1$, $l_2$  & $\sim 5$  & No  & Yes \\
-		$r_1$, $l_3$  & $\sim 1$  & Yes & No  \\
-	\end{tabular}
-	
-	\vspace{0.5em}
-	\textbf{Effect:} \textit{Filter out clearly irrelevant pairs early — no need to compute Jaccard or Edit Distance!}
+
+	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{myexampleblock}
+		\textit{\small Assumption: Although 3-gram blocking may have pruned $l_3$, we assume here it was retained due to weak overlap, allowing us to illustrate negative-rule filtering.}
+		
+		\vspace{1em}
+		\textbf{Goal:} Use \textbf{obvious non-matches} in $L$–$L$ to learn rules that help \textbf{filter unlikely $L$–$R$ pairs} before costly distance computations.
+		
+		\vspace{0.5em}
+		\textbf{Step 1: Generate $LL$ — Self-Join on $L$ using 3-gram blocking}
+		\begin{tabular}{llll}
+			\textbf{Pair} & \textbf{Shared 3-grams} & \textbf{Interpretation} \\
+			\hline
+			$l_1$ vs $l_2$ & \texttt{sm, smy, th}  & Possibly similar \\
+			$l_1$ vs $l_3$ & \texttt{jo, on}       & Clearly different \\
+			$l_2$ vs $l_3$ & Weak overlap          & Probably different \\
+		\end{tabular}
+		
+		\vspace{0.5em}
+		\textbf{Learn Negative Rule:} \\
+		\textit{"If 3-gram overlap $\leq 2$, treat as a non-match."}
+		
+		\vspace{0.5em}
+		\textbf{Step 2: Apply Rule on $LR$ Candidate Pairs}
+		\begin{tabular}{lllll}
+			\textbf{Pair} & \textbf{Overlap} & \textbf{Apply Rule?} & \textbf{Keep?} \\
+			\hline
+			$r_1$, $l_1$  & $\sim 4$  & No  & Yes \\
+			$r_1$, $l_2$  & $\sim 5$  & No  & Yes \\
+			$r_1$, $l_3$  & $\sim 1$  & Yes & No  \\
+		\end{tabular}
+		
+		\vspace{0.5em}
+		\textbf{Effect:} \textit{Filter out clearly irrelevant pairs early — no need to compute Jaccard or Edit Distance!}
+	\end{beamercolorbox}
 \end{frame}
 
 
-\begin{frame}{Compute Distances: Apply Join Functions}
+\begin{frame}{3. Compute distances - apply join functions}
+	
+	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{block body}
+	\texttt{Compute distance with different join functions $f \in \mathcal{S}$}
+	\end{beamercolorbox}
+	
+	\vspace{0.5em}
 	Once candidate pairs are identified (via blocking and optional negative rules), we compute the actual similarity using multiple join functions $f \in \mathcal{S}$.
 	
 	\vspace{0.5em}
@@ -808,35 +831,37 @@
 	\end{itemize}
 	
 	\vspace{0.5em}
-	\textbf{Example Candidate Pairs (after blocking):}
-	\begin{tabular}{ll}
-		$r$ (query) & $l$ (reference) \\
-		\hline
-		\texttt{"jon smyth"} & \texttt{"john smith"} \\
-		\texttt{"jon smyth"} & \texttt{"jane smythe"} \\
-	\end{tabular}
-	
-	\vspace{0.5em}
-	\textbf{Join Functions in $\mathcal{S}$:}
-	\begin{tabular}{llll}
-		\textbf{Function $f$} & \textbf{Tokenizer} & \textbf{Distance} & \textbf{Description} \\
-		\hline
-		$f_1$ & char 3-grams & Jaccard & Overlap in token sets \\
-		$f_2$ & char 3-grams & Cosine (TF-IDF) & Weighted similarity \\
-		$f_3$ & raw string   & Levenshtein & Edit distance \\
-	\end{tabular}
-	
-	\vspace{0.5em}
-	\textbf{Computed Scores:}
-	\begin{tabular}{lccc}
-		\textbf{Pair} & $f_1$ & $f_2$ & $f_3$ \\
-		\hline
-		\texttt{jon vs john} & 0.4 & 0.5 & 2 \\
-		\texttt{jon vs jane} & 0.6 & 0.7 & 3 \\
-	\end{tabular}
-	
-	\vspace{0.5em}
-	\textit{Note: Distances may follow different scales — lower often means more similar.}
+	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{myexampleblock}
+		\textbf{Example Candidate Pairs (after blocking):}
+		\begin{tabular}{ll}
+			$r$ (query) & $l$ (reference) \\
+			\hline
+			\texttt{"jon smyth"} & \texttt{"john smith"} \\
+			\texttt{"jon smyth"} & \texttt{"jane smythe"} \\
+		\end{tabular}
+		
+		\vspace{0.5em}
+		\textbf{Join Functions in $\mathcal{S}$:}
+		\begin{tabular}{llll}
+			\textbf{Function $f$} & \textbf{Tokenizer} & \textbf{Distance} & \textbf{Description} \\
+			\hline
+			$f_1$ & char 3-grams & Jaccard & Overlap in token sets \\
+			$f_2$ & char 3-grams & Cosine (TF-IDF) & Weighted similarity \\
+			$f_3$ & raw string   & Levenshtein & Edit distance \\
+		\end{tabular}
+		
+		\vspace{0.5em}
+		\textbf{Computed Scores:}
+		\begin{tabular}{lccc}
+			\textbf{Pair} & $f_1$ & $f_2$ & $f_3$ \\
+			\hline
+			\texttt{jon vs john} & 0.4 & 0.5 & 2 \\
+			\texttt{jon vs jane} & 0.6 & 0.7 & 3 \\
+		\end{tabular}
+		
+		\vspace{0.5em}
+		\textit{Note: Distances may follow different scales — lower often means more similar.}
+	\end{beamercolorbox}
 \end{frame}
 
 
