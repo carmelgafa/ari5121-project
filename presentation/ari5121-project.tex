@@ -20,13 +20,13 @@
 
 \begin{document}
 
-\setbeamercolor{myblock}{bg=red!10, fg=black}
+
 
 \begin{frame}[plain]
     \maketitle
 \end{frame}
 
-
+\small
 \begin{frame}{Fuzzy-join (or similarity join)}
 	\begin{figure}
 		\centering
@@ -39,68 +39,44 @@
 	\end{figure}
 
 	\begin{itemize}
-		\item Fuzzy join takes two tables as inputs and identify record pairs that refer to the same entity
-		\item As an example, l1 and r2 refer to the same person
-		\item The concept can be extended to rows consisting of multiple columns
+		\item Fuzzy join takes two tables as inputs and identifies record pairs that refer to the same entity.
+		\item As an example, l1 and r2 refer to the same person.
+		\item The concept can be extended to records with multiple fields or attributes.
 	\end{itemize}
 \end{frame}
-
-
 
 
 \begin{frame}{Fuzzy-join configuration }
- \begin{tabular}{ccc}  
-	\begin{tabular}{c}
-		\includegraphics[width=0.2\linewidth]{img/FuzzyJoin_config_1.png}
+	 \begin{tabular}{ccc}  
+		\begin{tabular}{c}
+			\includegraphics[width=0.2\linewidth]{img/FuzzyJoin_config_1.png}
+		\end{tabular}
+		& \begin{tabular}{l}
+			\includegraphics[width=0.2\linewidth]{img/FuzzyJoin_config_2.png}
+		\end{tabular}	
+		& \begin{tabular}{l}
+		\includegraphics[width=0.2\linewidth]{img/FuzzyJoin_config_3.png}
+		\end{tabular}  \\
 	\end{tabular}
-	& \begin{tabular}{l}
-		\includegraphics[width=0.2\linewidth]{img/FuzzyJoin_config_2.png}
-	\end{tabular}	
-	& \begin{tabular}{l}
-	\includegraphics[width=0.2\linewidth]{img/FuzzyJoin_config_3.png}
-	\end{tabular}  \\
-\end{tabular}
-
-\begin{itemize}
-	\item Fuzzy-join has been integrated many commercial applications
-	\item These systems are normally not easy to use as they have a big number of configuration parameters
-	\item The extension in Microsoft Excel has 19 options that span across 3 dialog boxes
+	
 	\begin{itemize}
-		\item 11 are binary, thus resulting in 2048 possible configuration scenarios
-		\item 8 continuous, such as thresholds and biases
+		\item Fuzzy-join has been integrated into many commercial applications
+		\item These systems are often difficult to use due to the large number of configuration parameters.
+		\item The extension in Microsoft Excel has 19 options that span across 3 dialog boxes.
+		\begin{itemize}
+			\item 11 are binary, thus resulting in 2048 possible configuration scenarios.
+			\item 8 continuous, such as thresholds and biases.
+		\end{itemize}
+		\item In order to execute quality Fuzzy-joins, these configurations require careful user setup to achieve high-quality results.
 	\end{itemize}
-	\item In order to execute quality Fuzzy-joins, these configurations must be set up properly by the user
-\end{itemize}
 \end{frame}
 
-
-
-
-%\begin{frame}{Introduction to Similarity and Fuzzy Joins}
-%	\textbf{Similarity Join} identifies and extracts record pairs from two tables --- the \textit{left} ($L$) and \textit{right} ($R$) tables --- that exhibit high similarity based on predefined criteria.
-%	
-%	\vspace{1em}
-%	\begin{itemize}
-%		\item A brute-force approach requires $n_L \times n_R$ comparisons.
-%		\item This is computationally impractical for large tables.
-%	\end{itemize}
-%	
-%	\vspace{1em}
-%	\textbf{Fuzzy Joins} improve both efficiency and accuracy:
-%	\begin{itemize}
-%		\item Widely adopted in commercial products.
-%		\item Require extensive parameter tuning, making them complex to use effectively.
-%	\end{itemize}
-%	
-%	\vspace{1em}
-%	\textit{Key property of fuzzy joins:} One table (typically $L$) acts as the \textbf{reference} or \textbf{curated master table} with minimal duplicate records.
-%\end{frame}
 
 
 %-----------------------------------------------------------------------------------------------------------------------------
 
-\begin{frame}{Theoretical foundation: fuzzy join}
-	Given a \textbf{reference table} $L$ and a table $R$ containing records that may be \textbf{imprecise} or noisy, a \textbf{fuzzy join} $J$ establishes approximate matches between them.
+\begin{frame}{Theoretical foundation: fuzzy join mapping}
+	Given a \textbf{reference table} $L$ and a table $R$ containing records that may be \textbf{imprecise} or noisy, a \textbf{fuzzy join mapping} $J$ establishes approximate matches between them.
 	
 	\begin{itemize}
 	\item $J$ connects elements of $R$ to similar elements in $L$ based on a chosen \textbf{similarity measure} (e.g., Levenshtein distance, cosine similarity, Jaccard similarity).
@@ -109,19 +85,19 @@
 	\end{itemize}
 	
 	Formally:
-	
+	\setbeamercolor{myblock}{bg=red!10, fg=black}
 	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{myblock}
 		$$
 		J: R \rightarrow L \cup \bot
 		$$
 	\end{beamercolorbox}
-	
 \end{frame}
 
 
 \begin{frame}{Theoretical foundation: fuzzy join configuration space}
 	A \textbf{fuzzy join} $f$ compares two strings, $r$ and $l$, by computing a distance score that reflects their similarity. The computation of this score is governed by a variety of parameters, forming a \textbf{parameter space}. 
 	
+	\setbeamercolor{myblock}{bg=red!10, fg=black}
 	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{myblock}
 		\textbf{Definition:} Each unique combination of these parameters defines a specific \textbf{join function} $f \in \mathcal{F}$, where $\mathcal{F}$ is the space of all possible join functions.
 	\end{beamercolorbox}
@@ -134,7 +110,7 @@
 
 
 
-\begin{frame}{Example: Fuzzy Join Distance Score Computation}
+\begin{frame}{Example: fuzzy join distance score computation}
 	\textbf{Join Function:} $f = (L, SP, EW, JD)$
 	\begin{itemize}
 		\item \textbf{L}: Lower-casing (Preprocessing)
@@ -176,11 +152,14 @@
 \begin{itemize}
 	\item Once the distance $f(l, r)$ is computed:
 	\begin{itemize}
-		\item It is compared to a threshold\textbf{compared to a threshold} $\theta$  to decide whether to join the string pair $l$ and $r$.
+		\item It is compared to a threshold \textbf{compared to a threshold} $\theta$  to decide whether to join the string pair $l$ and $r$.
+		\begin{itemize}
+			\item lower $\theta$ gives stricter matches
+		\end{itemize}
 		\item If $f(l, r) \leq \theta$ , the pair is considered \textbf{a match}.
 	\end{itemize}
 	\item 	Together, the function $f$ and the threshold $\theta$ define what the authors call a \textbf{join configuration}:$$
-	C = (f, \theta)
+	C = \langle f, \theta \rangle
 	$$
 	\item This configuration encapsulates both:
 	\begin{itemize}
@@ -209,7 +188,7 @@
 	That is
 	\begin{itemize}
 		\item For each record $r \in R$, find $l \in L$ that minimizes the distance $f(l, r)$, \textbf{only if} that distance is less than or equal to the threshold $\theta$.
-		\item If no such $l \in L$ exists such that $f(l, r) \leq \theta$, then $J_C(r)$ is \textbf{empty} — i.e., no match for that record.
+		\item If no such $l \in L$ exists such that $f(l, r) \leq \theta$, then $J_C(r)$ is maps to $\perp$ — i.e., no match for that record.
 	\end{itemize}
 
 \end{frame}
@@ -231,16 +210,16 @@
 			
 			\vspace{0.5em}
 			To handle this diversity, the algorithm uses a \textbf{set of join configurations}:
-			\[
+			$$
 			U = \{C_1, C_2, \dots, C_K\}
-			\]
+			$$
 			
 			Instead of relying on a single configuration, the system computes join results from each one.
 			
 			This approach allows the system to:
 			\begin{itemize}
 				\item Accommodate diverse types of variations.
-				\item Improve overall recall by \textbf{combining multiple perspectives} on similarity.
+				\item Improve overall recall by \textbf{combining multiple perspectives} on similarity (different parametrizations that are sensitive to different types of noise).
 			\end{itemize}
 		\end{column}
 		
@@ -272,9 +251,9 @@
 	
 	\begin{itemize}
 		\item To handle this diversity, the algorithm uses a \textbf{set of join configurations}:
-		\[
+		$$
 		U = \{C_1, C_2, \dots, C_K\}
-		\]
+		$$
 		\item Instead of relying on a single configuration, the system computes join results from each.
 		\item This approach allows the system to:
 		\begin{itemize}
@@ -284,12 +263,12 @@
 	\end{itemize}
 	
 	\vspace{1em}
-	
+	\setbeamercolor{myblock}{bg=red!10, fg=black}
 	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{myblock}
 		Given $L$ and $R$, a set of join configurations $U = \{C_1, C_2, \ldots, C_K\}$ induces a \textbf{fuzzy join mapping} $J_U$, defined as:
-		\[
+		$$
 		J_U(r) = \bigcup_{C_i \in U} J_{C_i}(r),\ \forall r \in R
-		\]
+		$$
 		This means that the overall result of the fuzzy join using configuration set $U$ is the \textbf{union} of results from all individual configurations $C_i \in U$.
 	\end{beamercolorbox}
 	
@@ -303,12 +282,10 @@
 		\item Each configuration contributes \textbf{high-quality joins} targeted at particular data challenges.
 		\item The overall join is more \textbf{robust and comprehensive}.
 	\end{itemize}
-	
-
-	
 \end{frame}
 
-\begin{frame}{Evaluating Join Quality: Precision}
+
+\begin{frame}{Theoretical foundation: evaluating join quality; Precision}
 	
 	Given two tables $R$ and $L$, and a \textbf{space of join configurations} $\mathcal{S}$, the objective is to find a subset $U \subseteq \mathcal{S}$ that produces \textbf{good fuzzy join results}.
 	
@@ -321,31 +298,32 @@
 	\vspace{0.5em}
 	\textbf{Precision} measures how many of the predicted joins are correct:
 	
-	\[
+	$$
 	\text{precision}(U) =
 	\frac{
 		\underbrace{|\{ r \in R\ |\ J_U(r) \neq \emptyset,\ J_U(r) = J_G(r) \}|}_{\text{True Positives (TP)}}
 	}{
 		\underbrace{|\{ r \in R\ |\ J_U(r) \neq \emptyset \}|}_{\text{TP + FP (all predicted joins)}}
 	}
-	\]
+	$$
 	
 	\begin{itemize}
 		\item \textbf{Numerator (TP)}: Records where a join was predicted and it matched the ground truth.
 		\item \textbf{Denominator (TP + FP)}: All records where a join was predicted (correct or not).
+		\item Only records with a prediction (i.e., $J_U(r) \neq \emptyset$) are evaluated in this precision formula.
 	\end{itemize}
 	
 \end{frame}
 
 
-\begin{frame}{Evaluating Join Quality: Recall}
+\begin{frame}{Theoretical foundation: evaluating join quality; Recall}
 	
 	\textbf{Recall} measures how many of the correct (ground truth) joins were successfully predicted:
 	
-	\[
+	$$
 	\text{recall}(U) =
 	\underbrace{|\{ r \in R\ |\ J_U(r) \neq \emptyset,\ J_U(r) = J_G(r) \}|}_{\text{True Positives (TP)}}
-	\]
+	$$
 	
 	\begin{itemize}
 		\item This is the \textbf{absolute count of True Positives}, i.e., records for which:
@@ -357,16 +335,16 @@
 	
 	\vspace{0.5em}
 	\textbf{False Negatives (FN)} — cases where a correct join was missed — are defined as:
-	\[
+	$$
 	\text{FN} = |\{ r \in R\ |\ J_G(r) \neq \emptyset,\ J_U(r) = \emptyset \}|
-	\]
+	$$
 	
 	\textit{Note:} The denominator $TP + FN$ is constant across all $U$ for a fixed dataset, so it is omitted in comparisons.
 	
 \end{frame}
 
 
-\begin{frame}{Estimating Precision/Recall for a Single Join Configuration}
+\begin{frame}{Theoretical foundation: estimating Precision/Recall for a single join configuration}
 	
 	Given:
 	\begin{itemize}
@@ -390,13 +368,14 @@
 	\textbf{Geometric View of the Distance Function $f$}
 	\begin{itemize}
 		\item Join function $f$ embeds records into a \textbf{metric space}.
-		\item Records are modeled as points on a \textbf{unit grid}.
+		\item Records are conceptually modelled as points on a \textbf{unit grid}.
 		\item Each $l \in L$ is surrounded by \textbf{close variants} (differing by a token, character, etc.).
+		\item The distance between each $l$ and the surrounding $r$'s is exploited by $\theta$ to compute join pairs.
 	\end{itemize}
 	
 	\vspace{0.5em}
 	\setbeamercolor{block title}{bg=blue!10, fg=black}
-	\setbeamercolor{block body}{bg=blue!5, fg=black}
+%	\setbeamercolor{block body}{bg=blue!5, fg=black}
 	\begin{block}{Analogy: Stars and Planets}
 		\begin{itemize}
 			\item Reference records $l \in L$ are like \textbf{stars} on a grid.
@@ -408,15 +387,15 @@
 \end{frame}
 
 
-\begin{frame}{Safe Joins and the Geometry of Fuzzy Matching}
+\begin{frame}{Theoretical foundation: safe joins and the geometry of fuzzy matching}
 	
 	\textbf{Safe Joins with a Complete $L$}
 	\begin{itemize}
 		\item Define the \textbf{grid width} $w$: typical distance between a record $l$ and its closest neighbors in $L$.
 		\item A join is considered \textbf{safe} if the distance $d = f(l, r)$ satisfies:
-		\[
+		$$
 		d < \frac{w}{2}
-		\]
+		$$
 		\item This guarantees that $r$ lies \textbf{closer to its true match} $l$ than to any other reference point.
 	\end{itemize}
 	
@@ -437,11 +416,8 @@
 	\end{block}
 \end{frame}
 
-\begin{frame}{Estimating Join Precision (Local Heuristic)}
-	
-	\small
+\begin{frame}{Theoretical foundation: estimating join precision (local heuristic)}
 	\begin{columns}
-		% Left column: explanation and formula
 		\begin{column}{0.4\textwidth}
 			Given a query record $r \in R$ and its closest match $l \in L$, with distance $d = f(l, r)$, we can estimate how \textbf{precise} this join is — i.e., how likely it is that $(l, r)$ is a \textbf{correct match}.
 			
@@ -451,16 +427,16 @@
 				\item So we count how many other records $l' \in L$ fall within the \textbf{2d-ball} centered at $l$:
 			\end{itemize}
 			
-			\[
+			$$
 			\text{precision}(l, r) =
 			\frac{1}{
 				\underbrace{|\{ l' \in L \mid f(l, l') \leq 2f(l, r) \}|}_{\text{TP + FP (local competitors)}}
 			}
-			\]
+			$$
 			
 			\begin{itemize}
-				\item A small 2$d$-ball $\rightarrow$ high precision (few competitors)
-				\item A large 2$d$-ball $\rightarrow$ low precision (many competitors)
+				\item A small 2$d$-ball $\rightarrow$ high precision (few competitors).
+				\item A large 2$d$-ball $\rightarrow$ low precision (many competitors).
 			\end{itemize}
 			
 
@@ -472,129 +448,120 @@
 			\centering
 			\includegraphics[width=0.7\linewidth]{img/Pasted image 20250331211545.png}
 			
-
-			\small
 			\begin{itemize}
-				\item To join $r_1$, we find the closest $l \in L$, say $l_1$
-				\item Compute the distance: $d = f(l_1, r_1)$
-				\item Draw a ball of radius $2d$ centered at $l_1$
+				\item To estimate the quality of joining $r_1$, we first find its nearest neighbor in $L$, which we’ll call $l_1$.
+				\item Compute the distance: $d = f(l_1, r_1)$.
+				\item Draw a ball of radius $2d$ centered at $l_1$.
 				\begin{itemize}
-					\item If no other $L$ records fall in the ball → high confidence
+					\item If no other $L$ records fall in the ball $\rightarrow$ high confidence.
 				\end{itemize}
 				\item In this case, the 2$d$-ball contains only $l_1$:
-				\[
+				$$
 				\text{precision}(l_1, r_1) = \frac{1}{1} = 1
-				\]
-				\item \textbf{High confidence join}
+				$$
+				\item \textbf{High confidence join}.
 			\end{itemize}
 			
 		\end{column}
 	\end{columns}
 \end{frame}
 	
-	\begin{frame}{When \texorpdfstring{$L$}{L} is Incomplete}
+
+
+
+
+\begin{frame}{Theoretical foundation: When $L$ is incomplete}
+	\begin{columns}
+		\begin{column}{0.53\textwidth}
+			\textbf{Problem:} When $L$ is incomplete (i.e., some records are missing):
+			\begin{itemize}
+				\item Missing records in $L$ result in \textbf{missing stars} in the grid.
+				\item A record $r$ may join to the wrong $l$, causing \textbf{false positives} and reducing \textbf{precision}.
+				\item Example: If $r_2$ should match with $l_2$ (but $l_2$ is missing), it might instead match $l_1$ using $d = f(r_2, l_1)$.
+			\end{itemize}
+			
+
+			\textbf{Note:}
+			\begin{itemize}
+				\item Even if some records in $L$ are missing, \textbf{safe decisions} can still be made.
+			\end{itemize}
+			
+
+			\textbf{Precision estimation:}
+			\begin{itemize}
+				\item $r_2$ should match $l_2$ (missing), so $l_1$ becomes the fallback.
+				\item The 2$d'$-ball around $l_1$ contains \textbf{5 records}.
+				\item Precision:
+				$$
+				\text{precision}(l_1, r_2) = \frac{1}{5}
+				$$
+				\item $\Rightarrow$ \textbf{Low confidence join}
+			\end{itemize}
+		\end{column}
 		
-		\small
-		\begin{columns}
-			
-			
-			\small
-			\begin{column}{0.53\textwidth}
-				\textbf{Problem:} When $L$ is incomplete (i.e., some records are missing):
-				
-
-				\begin{itemize}
-					\item Missing records in $L$ result in \textbf{missing stars} in the grid.
-					\item A record $r$ may join to the wrong $l$, causing \textbf{false positives} and reducing \textbf{precision}.
-					\item Example: If $r_2$ should match with $l_2$ (but $l_2$ is missing), it might instead match $l_1$ using $d = f(r_2, l_1)$.
-				\end{itemize}
-				
-
-				\textbf{Note:}
-				\begin{itemize}
-					\item Even if some records in $L$ are missing, \textbf{safe decisions} can still be made.
-					\item In 2D figure, can tolerate up to \textbf{7 out of 11} missing.
-				\end{itemize}
-				
-
-				\textbf{Precision estimation:}
-				\begin{itemize}
-					\item $r_2$ should match $l_2$ (missing), so $l_1$ becomes the fallback.
-					\item The 2$d'$-ball around $l_1$ contains \textbf{5 records}.
-					\item Precision:
-					\[
-					\text{precision}(l_1, r_2) = \frac{1}{5}
-					\]
-					\item $\Rightarrow$ \textbf{Low confidence join}
-				\end{itemize}
-				
-			\end{column}
-			
-			\small
-			\begin{column}{0.43\textwidth}
-				\centering
-				\includegraphics[width=0.7\linewidth]{img/Pasted image 20250331211607.png}
-			
-				\begin{itemize}
-					\item $r_2$ should join with $l_2$, but $l_2$ is \textbf{missing}
-					\item $l_1$ becomes the closest available record
-					\item Compute distance $d' = f(l_1, r_2)$
-					\item Draw a 2$d'$-ball around $l_1$
-					\begin{itemize}
-						\item If the ball includes many other $L$ records $\Rightarrow$ $d'$ is too \textbf{lax}
-						\item Join becomes unreliable
-					\end{itemize}
-				\end{itemize}
-			\end{column}
-			
-		\end{columns}
+		\begin{column}{0.43\textwidth}
+			\centering
+			\includegraphics[width=0.7\linewidth]{img/Pasted image 20250331211607.png}
 		
-	\end{frame}
+			\begin{itemize}
+				\item $r_2$ should join with $l_2$, but $l_2$ is \textbf{missing}
+				\item $l_1$ becomes the closest available record
+				\item Compute distance $d' = f(l_1, r_2)$
+				\item Draw a 2$d'$-ball around $l_1$
+				\begin{itemize}
+					\item If the ball includes many other $L$ records $\rightarrow$ $d'$ is too \textbf{lax}
+					\item Join becomes unreliable
+				\end{itemize}
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
 	
-	
-\small	
-\begin{frame}{Estimating Precision and Recall for a Configuration}
+		
+\begin{frame}{Theoretical foundation: estimating Precision and Recall for a configuration}
 	A configuration $C = \langle f, \theta \rangle$ includes:
 	\begin{itemize}
 		\item A join function $f$
 		\item A threshold $\theta$
 	\end{itemize}
 	
-	\textbf{1. Local Precision for a Join}
-	\[
+	\textbf{1. Local precision for a join}
+	$$
 	\text{precision}(r, C) =
 	\frac{1}{
 		|\{ l' \in L \mid f(l, l') \leq 2f(l, r) \}|
 	}
-	\]
+	$$
 	\begin{itemize}
 		\item $J_C(r) = l$: join match for $r \in R$
 		\item Denominator = number of plausible alternatives
 	\end{itemize}
 	
-	\textbf{2. Expected True Positives}
-	\[
+	\textbf{2. Expected true positives}
+	$$
 	TP(C) = \sum_{r \in R, J_C(r) \neq \emptyset} \text{precision}(r, C)
-	\]
+	$$
 	
-	\textbf{3. Expected False Positives}
-	\[
+	\textbf{3. Expected false positives}
+	$$
 	FP(C) = \sum_{r \in R, J_C(r) \neq \emptyset} \left(1 - \text{precision}(r, C)\right)
-	\]
+	$$
 	
 	\textbf{4. Overall Precision and Recall}
-	\[
+	$$
 	\text{precision}(C) = \frac{TP(C)}{TP(C) + FP(C)} \quad\quad
 	\text{recall}(C) = TP(C)
-	\]
+	$$
 	
 	\textit{Note:} Recall is estimated absolutely since ground truth is unavailable.
 \end{frame}
 
 	
-\begin{frame}{Precision and Recall Estimation: Example}
+\begin{frame}{Example: Precision and Recall estimation}
+	
 	\textbf{Setup:} Assume 3 records in $R$, joined to $L$ using configuration $C = \langle f, \theta \rangle$.
 	
+	\vspace{0.5em}
 	\textbf{Join Results:}
 	\begin{itemize}
 		\item $J_C(r_1) = l_1$, $f(l_1, r_1) = 0.1$, 5 plausible matches $\Rightarrow \text{precision}(r_1, C) = \frac{1}{5} = 0.20$
@@ -602,23 +569,26 @@
 		\item $J_C(r_3) = l_3$, $f(l_3, r_3) = 0.2$, 4 plausible matches $\Rightarrow \text{precision}(r_3, C) = \frac{1}{4} = 0.25$
 	\end{itemize}
 	
+	\vspace{0.5em}
 	\textbf{Estimated TP and FP:}
 	\begin{align*}
 		TP(C) &= 0.20 + 0.50 + 0.25 = 0.95 \\
 		FP(C) &= (1 - 0.20) + (1 - 0.50) + (1 - 0.25) = 2.05
 	\end{align*}
 
+	\vspace{0.5em}
 	\textbf{Estimated Precision and Recall:}
 	\begin{align*}
-		\text{precision}(C) &= \frac{0.95}{0.95 + 2.05} = \frac{0.95}{3.00} \approx 0.317 \\
-		\text{recall}(C) &= TP(C) = 0.95
+		\text{precision}(C) &= \frac{0.95}{0.95 + 2.05} = \frac{0.95}{3.00} \approx \textbf{0.317} \\\\
+		\text{recall}(C) &= TP(C) = \textbf{0.95}
 	\end{align*}
 	
+	\vspace{0.5em}
 	\textit{Note:} This example assumes no ground truth; hence recall is based on expected TP count.
 \end{frame}
 
 
-\begin{frame}{Precision and Recall for a Set of Configurations}
+\begin{frame}{Theoretical foundation: Precision and Recall for a set of configurations}
 	Let $U = \{C_1, C_2, \dots, C_K\}$ be a set of configurations.
 	
 	\vspace{0.5em}
@@ -648,6 +618,7 @@
 		\end{enumerate}
 	\end{itemize}
 	
+	\vspace{0.5em}
 	\textbf{Final Estimates:}
 	$$
 	\text{precision}(U) = \frac{TP(U)}{TP(U) + FP(U)} \qquad
@@ -656,7 +627,7 @@
 \end{frame}
 
 
-\begin{frame}{Example: Resolving Conflicting Joins from Multiple Configurations}
+\begin{frame}{Example: resolving conflicting joins from multiple configurations}
 	\textbf{Context:} Two configurations propose different joins for the same record $r \in R$ using different string similarity methods.
 	
 	\vspace{0.5em}
@@ -692,19 +663,15 @@
 \end{frame}
 
 
-\begin{frame}{Auto-FuzzyJoin Algorithm: Single Column Case}
+\begin{frame}{Auto-FuzzyJoin Algorithm: single column case}
 	\begin{columns}
 		\begin{column}{0.55\textwidth}
-			\textbf{Problem:} Recall-Maximizing Fuzzy Join (RM-FJ) is \textbf{NP-hard}.
-			
-			\vspace{0.5em}
-			\textbf{Solution:} Use a \textbf{greedy approximation algorithm} called \texttt{AutoFJ}.
+			\textbf Recall-Maximizing Fuzzy Join (RM-FJ) is \textbf{NP-hard}. Use a \textbf{greedy approximation algorithm} called \texttt{AutoFJ}.
 			
 			\vspace{0.5em}
 			\textbf{Objective:}
 			\begin{itemize}
-				\item Maximize recall: $TP(U)$
-				\item Subject to: maintain $\text{precision}(U) \geq \tau$
+				\item Maximize recall $TP(U)$ subject to maintaining $\text{precision}(U) \geq \tau$
 			\end{itemize}
 			
 			\textbf{Greedy Strategy:}
@@ -721,12 +688,18 @@
 			\end{itemize}
 			
 			\textbf{Blocking Heuristic:}
+			\tiny
 			\begin{itemize}
-				\item Apply 3-gram-based blocking:
+				\item To reduce the number of comparisons, apply \textbf{3-gram blocking}.
+				\item Each string is decomposed into overlapping sequences of 3 characters (3-grams).
+				\item Only record pairs that share at least one common 3-gram are considered for joining.
+				\item This blocks out obviously dissimilar pairs and speeds up computation.
+				\item Applied to both $L$–$L$ and $L$–$R$ candidate pairs:
 				$$
-				LL, LR \leftarrow \text{apply blocking on } L{-}L, L{-}R
+				LL, LR \leftarrow \text{generate candidate pairs using 3-gram overlap}
 				$$
 			\end{itemize}
+
 		\end{column}
 		
 		\begin{column}{0.45\textwidth}
@@ -738,7 +711,15 @@
 
 
 
-\begin{frame}{Blocking Example: 3-Grams and TF-IDF}
+\begin{frame}{Example: 3-Gram blocking using TF-IDF}
+	
+	\setbeamercolor{myblock}{bg=gray!15!white, fg=black}
+	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{block body}
+		\texttt{LL, LR $\leftarrow$ apply 3-gram blocking on $L–L$ and $L–R$}
+	\end{beamercolorbox}
+	
+	
+	\vspace{0.5em}
 	\textbf{Reference Table $L$:}
 	\begin{tabular}{ll}
 		$l_1$ & \texttt{"john smith"} \\
@@ -753,13 +734,13 @@
 	\textbf{Step 1: Preprocessing (P)}
 	\begin{itemize}
 		\item Lowercasing (already lowercase)
-		\item Add padding for 3-grams: e.g., \texttt{"jon"} → \texttt{"\#\#jon\#"}
+		\item Add padding for 3-grams: e.g., \texttt{"john smith"} $\rightarrow$ \texttt{"\#\#john\#smith\#\#"}
 	\end{itemize}
 	
 	\vspace{0.5em}
 	\textbf{Step 2: Tokenization (T)}
 	\begin{itemize}
-		\item $r_1$: \texttt{\#\#j, \#jo, jon, on , n s, sm, smy, myt, yth, th\#}
+		\item $r_1$: \texttt{\#\#j, \#jo, jon, on\# , n\#s, \#sm, smy, myt, yth, th\#, h\#\#}
 		\item $l_1$, $l_2$: similar 3-gram sequences
 	\end{itemize}
 	
@@ -767,14 +748,15 @@
 	\textbf{Step 3: Token Weighting (W)}
 	\begin{itemize}
 		\item Use TF-IDF to emphasize rare, meaningful trigrams (e.g., \texttt{smy}, \texttt{yth})
-		\item $r_1$–$l_2$: \textbf{High score}, $r_1$–$l_1$: Medium, $r_1$–$l_3$: Zero
+		\item $r_1$–$l_2$: \textbf{High score(rare overlapping trigrams)}, $r_1$–$l_1$: Medium (more common overlap), $r_1$–$l_3$: Zero (no shared trigrams)
 	\end{itemize}
 	
 	\vspace{0.5em}
 	\textbf{Blocking Result:}
 	\begin{itemize}
-		\item Only compare $r_1$ with $l_1$, $l_2$ → prune $l_3$
+		\item Only compare $r_1$ with $l_1$, $l_2$ $\rightarrow$ prune $l_3$
 	\end{itemize}
+	
 \end{frame}
 
 
@@ -932,6 +914,158 @@
 	\end{itemize}
 	
 	\textit{Loop continues while there are remaining candidates and precision can be preserved.}
+\end{frame}
+
+\begin{frame}{Find Most Promising Configuration (Profit Heuristic)}
+	
+	\vspace{0.5em}
+	\textbf{Pseudocode:}
+	\begin{itemize}
+		\item[] \texttt{max\_profit ← 0}
+		\item[] \texttt{for all } $C \in S \setminus U$ \texttt{ do}
+		\begin{itemize}
+			\item[] \texttt{if } $\text{profit}(U \cup \{C\}) > \texttt{max\_profit}$ \texttt{ then}
+			\item[] \quad $C^* \leftarrow C$, $\texttt{max\_profit} \leftarrow \text{profit}(U \cup \{C\})$
+		\end{itemize}
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textbf{Profit Formula:}
+	$$
+	\text{profit}(U \cup \{C\}) = \frac{TP(U \cup \{C\})}{FP(U \cup \{C\})}
+	$$
+	
+	\vspace{0.5em}
+	\textbf{Example:}
+	\begin{tabular}{lccc}
+		\textbf{Config $C$} & \textbf{TP} & \textbf{FP} & \textbf{Profit = TP / FP} \\
+		\hline
+		$C_1$ & 4 & 2 & 2.0 \\
+		$C_2$ & 5 & 5 & 1.0 \\
+		$C_3$ & 3 & 1 & \textbf{3.0} \\
+	\end{tabular}
+	
+	\vspace{0.5em}
+	After evaluation: $C^* = C_3$, $\texttt{max\_profit} = 3.0$
+	
+	\vspace{0.5em}
+	\textit{Heuristic: choose the configuration that gives the most recall “bang” per unit of precision “risk.”}
+\end{frame}
+
+\begin{frame}{Precision Constraint Check \& Termination}
+	\texttt{\textbf{Check:} if } $\text{precision}(U \cup \{C^*\}) > \tau$ \texttt{ then}  
+	\quad \texttt{$U \leftarrow U cup \{C^*\}$}
+	
+	\vspace{0.5em}
+	After selecting the best candidate $C^*$ (based on profit), we must verify that adding it to $U$ preserves minimum required precision $\tau$.
+	
+	\begin{itemize}
+		\item If precision passes: add $C^*$ to $U$
+		\item Else: break — no remaining configs will satisfy the constraint
+	\end{itemize}
+	
+	\vspace{1em}
+	\textbf{Example 1 (Pass):}
+	\begin{tabular}{lccccc}
+		Config & TP & FP & Profit & Precision & $\tau$ \\
+		\hline
+		$C_3$ & 3 & 1 & 3.0 & \textbf{0.75} & 0.7 \\
+	\end{tabular}
+	
+	\vspace{0.5em}
+	$\Rightarrow$ Precision $>$ $\tau$ $\rightarrow$ Accept $\rightarrow$ $U \leftarrow \{C_3\}$
+	
+	\vspace{1em}
+	\textbf{Example 2 (Fail \& Break):}
+	\begin{tabular}{lccccc}
+		Config & TP & FP & Profit & Precision & $\tau$ \\
+		\hline
+		$C_3$ & 3 & 1 & 3.0 & \textbf{0.75} & 0.8 \\
+	\end{tabular}
+	
+	\vspace{0.5em}
+	$\Rightarrow$ Precision $<$ $\tau$ $\rightarrow$ Reject $\rightarrow$ Stop Loop
+	
+	\textit{Greedy termination: If best config can’t meet $\tau$, no others will.}
+\end{frame}
+
+
+\begin{frame}{Exit: Return Final Join Plan}
+	\texttt{\textbf{Return:} U}
+	
+	\vspace{0.5em}
+	The greedy loop terminates when:
+	\begin{itemize}
+		\item $S \setminus U = \emptyset$ (all configs evaluated), or
+		\item The best candidate fails the precision constraint
+	\end{itemize}
+	
+	\vspace{0.5em}
+	The algorithm returns $U$: a set of selected configurations:
+	\begin{itemize}
+		\item Each $C = \langle f, \theta \rangle$
+		\item Maximizes recall while keeping $\text{precision}(U) \geq \tau$
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textbf{Each configuration in $U$ defines:}
+	\begin{itemize}
+		\item A join function $f$ (e.g., Jaccard, Cosine, Edit Distance)
+		\item A threshold $\theta$ used to accept matches
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textbf{Example Output:}
+	\begin{itemize}
+		\item $U = \{ \langle f_2 = \text{Cosine}, \theta = 0.5 \rangle,\ \langle f_3 = \text{Edit}, \theta = 2 \rangle \}$
+	\end{itemize}
+	
+	\textit{These are used to perform the final fuzzy similarity join.}
+\end{frame}
+
+
+\begin{frame}{Selecting the Best Match: Full Example}
+	
+	\textbf{1. Input Setup:}
+	\begin{itemize}
+		\item Query record: $r_1$ = \texttt{"jon smyth"}
+		\item Reference table: $L = \{\texttt{"john smith"},\ \texttt{"jane smythe"},\ \texttt{"alice johnson"}\}$
+		\item After blocking: candidates for $r_1$ are $l_1$ and $l_2$
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textbf{2. Distance Results:}
+	\begin{tabular}{lcccc}
+		Join Function $f$ & $\theta$ & $f(r_1, l_1)$ & $f(r_1, l_2)$ & Matches? \\
+		\hline
+		Jaccard (3-grams) & 0.4 & 0.5 & 0.3 & $l_2$ only \\
+		Cosine (TF-IDF)   & 0.5 & 0.6 & 0.4 & $l_2$ only \\
+		Edit Distance     & 2.0 & 2 & 3 & $l_1$ only \\
+	\end{tabular}
+	
+	\vspace{0.5em}
+	\textbf{3. Final Configuration Set $U$:}
+	\begin{itemize}
+		\item $U = \{ \langle f_2 = \text{Cosine},\ \theta = 0.5 \rangle,\ \langle f_3 = \text{Edit},\ \theta = 2 \rangle \}$
+		\item Under Cosine: $r_1 \mapsto l_2$
+		\item Under Edit Distance: $r_1 \mapsto l_1$
+	\end{itemize}
+	
+	\vspace{0.5em}
+	\textbf{4. Conflict Resolution: Local Precision}
+	
+	\vspace{0.25em}
+	$\text{precision}(r, C) = \frac{1}{\left| \{ l' \in L \mid f(l, l') \leq 2f(l, r) \} \right|}$
+	
+	\begin{tabular}{lcccc}
+		Config $C$ & Match & $f(l, r)$ & $2d$-ball size & Precision \\
+		\hline
+		$C_2$ (Cosine) & $l_2$ & 0.4 & 5 & 1/5 = 0.2 \\
+		$C_3$ (Edit)   & $l_1$ & 2 & 2 & \textbf{1/2 = 0.5} \\
+	\end{tabular}
+	
+	\vspace{0.5em}
+	\textbf{Result:} \textit{"jon smyth" is matched to "john smith" (Edit Distance), since it has higher estimated precision ($0.5 > 0.2$).}
 \end{frame}
 
 
