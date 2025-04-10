@@ -15,21 +15,21 @@ def cleanse_data():
 
     raw_accents_folder = os.path.join(
         os.path.dirname(__file__),
-        "data",
-        "raw",
-        "ABI-1_Corpus",
-        "ABI-1 Corpus",
-        "accents")
+        'data',
+        'raw',
+        'ABI-1_Corpus',
+        'ABI-1 Corpus',
+        'accents')
 
     cleansed_folder = os.path.join(
         os.path.dirname(__file__),
-        "data",
-        "cleansed")
+        'data',
+        'cleansed')
 
     # list accent folders removing the annoying folders
     accents = [accent_folder
                for accent_folder in os.listdir(raw_accents_folder)
-               if not accent_folder.startswith(".")]
+               if not accent_folder.startswith('.')]
 
     # go through all accents
     for accent in accents:
@@ -38,7 +38,7 @@ def cleanse_data():
         # list all genders in each accent
         genders = [gender_folder
                    for gender_folder in os.listdir(accent_path)
-                   if not gender_folder.startswith(".")]
+                   if not gender_folder.startswith('.')]
 
         # go through all genders in each accent
         for gender in genders:  
@@ -48,7 +48,7 @@ def cleanse_data():
 
             speakers = [speaker
                         for speaker in os.listdir(gender_folder)
-                        if not speaker.startswith(".")]
+                        if not speaker.startswith('.')]
 
             for speaker in speakers:
                 speaker_path = os.path.join(gender_folder, speaker)
@@ -60,14 +60,14 @@ def cleanse_data():
                 # copy only filenames that  are shortpassage*.wav
                 # go through all files
                 for filename in os.listdir(speaker_path):
-                    if re.fullmatch(r"shortpassage.*\.wav", filename):
+                    if re.fullmatch(r'shortpassage.*\.wav', filename):
 
                         src_file = os.path.join(speaker_path, filename)
                         dst_file = os.path.join(dest_path, filename)
                         shutil.copy2(src_file, dst_file)
 
 
-if __name__ == "__main__":
-    print("Cleansing ABI-1 Corpus dataset...")
+if __name__ == '__main__':
+    print('Cleansing ABI-1 Corpus dataset...')
     cleanse_data()
-    print("Cleansing completed.")
+    print('Cleansing completed.')
