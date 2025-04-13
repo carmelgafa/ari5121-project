@@ -5,13 +5,16 @@ Download the ABI-1 Corpus dataset from Google Drive and the WavLM model from Hug
 This script takes several minutes to run
 '''
 
+
 import os
 import shutil
 import zipfile
 import gdown
 from transformers import AutoModel, Wav2Vec2FeatureExtractor
+from utils import timer
 
 
+@timer
 def create_folders():
     '''Create the data and model folders if they don't exist.'''
 
@@ -27,6 +30,7 @@ def create_folders():
     if not os.path.exists(model_folder):
         os.makedirs(model_folder, exist_ok=True)
 
+@timer
 def download_data():
     '''Download the ABI-1 Corpus dataset from Google Drive and extract it.'''
 
@@ -58,6 +62,7 @@ def download_data():
     with zipfile.ZipFile(download_path, 'r') as zip_ref:
         zip_ref.extractall(data_raw_folder)
 
+@timer
 def download_model():
     '''Download the WavLM model from Hugging Face.'''
 

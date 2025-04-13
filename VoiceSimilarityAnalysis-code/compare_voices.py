@@ -9,10 +9,11 @@ functionality of the code.
 import os
 import torch
 import torchaudio
+import pickle
 from transformers import Wav2Vec2FeatureExtractor
 from transformers import WavLMForXVector
 import numpy as np
-
+import pandas as pd
 
 def get_embeddings_for_wav(feature_extractor, model, accent, gender, speaker, wav_file):
     '''
@@ -119,14 +120,10 @@ def create_embeddings_dict(wav_1, wav_2):
         wav_1['wav_file'])
 
     speaker = wav_1['speaker']
-    if speaker not in dict_embeddings:
-        dict_embeddings[speaker] = np.empty((0,512))
-
-    e1_np = e_1.squeeze().numpy()
-
-    print(f"Speaker: {speaker}, Embedding Shape: {e1_np.shape}")
-
-    dict_embeddings[speaker] = np.append(dict_embeddings[speaker], [e_1.squeeze().numpy()], axis=0)
+    if speaker in dict_embeddings:
+         dict_embeddings[speaker] = torch.cat([dict_embeddings[speaker],    e_1 ], dim=0)
+    else:
+        dict_embeddings[speaker] = e_1
 
     e_2 = get_embeddings_for_wav(
         feature_extractor,
@@ -136,20 +133,44 @@ def create_embeddings_dict(wav_1, wav_2):
         wav_2['speaker'],
         wav_2['wav_file'])
 
-    print(f"Speaker: {speaker}, Embedding Shape: {e1_np.shape}")
-
-
     speaker = wav_2['speaker']
-    if speaker not in dict_embeddings:
-        dict_embeddings[speaker] = np.empty((0,512))
+    if speaker in dict_embeddings:
+         dict_embeddings[speaker] = torch.cat([dict_embeddings[speaker],    e_2 ], dim=0)
+    else:
+        dict_embeddings[speaker] = e_2
+        
+    embedding_folder = os.path.join(os.path.dirname(__file__),
+        'data',
+        'embeddings')
 
-    dict_embeddings[speaker] = np.append(dict_embeddings[speaker], [e_2.squeeze().numpy()], axis=0)
+    df = pd.DataFrame([
+        {'Speaker': speaker, 'Embedding': emb}
+        for speaker, emb in dict_embeddings.items()
+    ])
 
-    for speaker, embeddings in dict_embeddings.items():
-        #get the dimension of the embeddings
-        embedding_dim = embeddings.shape
-        print(f"Speaker: {speaker}, Embedding Dimension: {embedding_dim}")
 
+    print(f'Embeddings shape: {df["Embedding"].shape}')
+    print(f'Embedding 1 shape: {df["Embedding"][0][0].shape}')
+    print(f'Embedding 2 shape: {df["Embedding"][0][1].shape}')
+
+    with open(os.path.join(embedding_folder, 'embeddings_reduced.pkl'), 'wb') as f:
+        pickle.dump(df, f)
+
+
+def open_embeddings_dict():
+    '''
+    Open the embeddings dictionary from the pickle file.
+    '''
+    embedding_folder = os.path.join(os.path.dirname(__file__),
+        'data',
+        'embeddings')
+
+    with open(os.path.join(embedding_folder, 'embeddings_reduced.pkl'), 'rb') as f:
+        df = pickle.load(f)
+
+    rec_1 = df.head(1)
+    
+    return df['Embedding'][0]
 
 
 
@@ -177,3 +198,15 @@ if __name__ == '__main__':
           using {wav_2_data['wav_file']}: {sim.item()}''')
 
     create_embeddings_dict(wav_1_data, wav_2_data)
+
+    embeddings = open_embeddings_dict()
+
+    print(f'Embeddings shape: {embeddings.shape}')
+    print(f'Embedding 1 shape: {embeddings[0].shape}')
+    print(f'Embedding 2 shape: {embeddings[1].shape}')
+
+
+    cosine_sim = torch.nn.CosineSimilarity(dim=-1)
+    sim = cosine_sim(embeddings[0], embeddings[1])
+    
+    print(f'Cosine similarity between embeddings from files:{sim.item()}')

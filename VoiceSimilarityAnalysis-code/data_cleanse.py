@@ -3,10 +3,13 @@ This script cleanses the ABI-1 Corpus dataset by removing unwanted files and fol
 storing result in the data/cleansed folder.
 '''
 
+
 import os
 import re
 import shutil
+from utils import timer
 
+@timer
 def cleanse_data():
     '''
     Cleanses the ABI-1 Corpus dataset by removing unwanted files and folders.

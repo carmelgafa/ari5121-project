@@ -1,0 +1,56 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+import os
+
+# Load your data
+df_summary = pd.read_csv(os.path.join(
+    os.path.dirname(__file__),
+    'data',
+    'results',
+    'similarity_results_summary.csv'))
+
+df_summary_processed = pd.DataFrame(
+    columns=[
+        '1_accent',
+        ' 1_gender',
+        '1_speaker',
+        '2_accent',
+        '2_gender',
+        '2_speaker',
+        'Cosine_Similarity'])
+
+# go through all rows
+for index, row in df_summary.iterrows():
+
+    accent_1 = row['Speaker_1'].split('-')[1]
+    gender_1 = row['Speaker_1'].split('-')[2]
+    speaker_1 = row['Speaker_1'].split('-')[0]
+
+    accent_2 = row['Speaker_2'].split('-')[1]
+    gender_2 = row['Speaker_2'].split('-')[2]
+    speaker_2 = row['Speaker_2'].split('-')[0]
+
+
+    cosine_similarity = row['Cosine_Similarity']
+
+    # add
+    df_summary_processed = pd.concat([df_summary_processed, pd.DataFrame([{
+            '1_accent': accent_1,
+            '1_gender': gender_1,
+            '1_speaker': speaker_1,
+            '2_accent': accent_2,
+            '2_gender': gender_2,
+            '2_speaker': speaker_2,
+            'Cosine_Similarity': cosine_similarity
+        }])], ignore_index=True)
+
+# Save
+df_summary_processed.to_csv(os.path.join(
+    os.path.dirname(__file__),
+    'data',
+    'results',
+    'similarity_results_summary_processed.csv'), index=False)
+
+

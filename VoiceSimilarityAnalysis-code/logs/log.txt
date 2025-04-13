@@ -1,0 +1,10 @@
+Log file created
+2025-04-13 16:56:17 - Starting pipeline...
+2025-04-13 16:56:17 - create_folders executed in 0.0000 seconds
+2025-04-13 17:08:37 - download_data executed in 740.1883 seconds
+2025-04-13 17:11:03 - download_model executed in 145.3897 seconds
+2025-04-13 17:11:33 - cleanse_data executed in 30.3647 seconds
+2025-04-13 18:10:24 - generate_embeddings_information executed in 3531.0910 seconds
+2025-04-13 18:20:55 - compare_embeddings executed in 631.1718 seconds
+2025-04-13 18:26:50 - expand_summary_table executed in 354.7597 seconds
+2025-04-13 18:26:50 - Pipeline completed.
