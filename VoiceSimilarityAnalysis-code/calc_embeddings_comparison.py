@@ -12,14 +12,12 @@ from utils import timer
 
 
 @timer
-def compare_embeddings():
+def compare_embeddings(attempt_gpu:bool=False):
     '''
     Compare the embeddings of all speakers and calculate the cosine similarity.
     '''
 
-    # use gpu as well
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # device = torch.device("cpu")
+    device = torch.device("cuda" if attempt_gpu and torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
     # create results folder in data
@@ -145,7 +143,7 @@ def expand_summary_table():
     df_summary_processed = pd.DataFrame(
         columns=[
             '1_accent',
-            ' 1_gender',
+            '1_gender',
             '1_speaker',
             '2_accent',
             '2_gender',
@@ -155,13 +153,13 @@ def expand_summary_table():
     # go through all rows
     for _, row in df_summary.iterrows():
 
-        accent_1 = row['Speaker_1'].split('-')[1]
-        gender_1 = row['Speaker_1'].split('-')[2]
-        speaker_1 = row['Speaker_1'].split('-')[0]
+        accent_1 = row['Speaker_1'].split('-')[0]
+        gender_1 = row['Speaker_1'].split('-')[1]
+        speaker_1 = row['Speaker_1'].split('-')[2]
 
-        accent_2 = row['Speaker_2'].split('-')[1]
-        gender_2 = row['Speaker_2'].split('-')[2]
-        speaker_2 = row['Speaker_2'].split('-')[0]
+        accent_2 = row['Speaker_2'].split('-')[0]
+        gender_2 = row['Speaker_2'].split('-')[1]
+        speaker_2 = row['Speaker_2'].split('-')[2]
 
         cosine_similarity = row['Cosine_Similarity']
 

@@ -13,17 +13,16 @@ import torchaudio
 import pandas as pd
 from transformers import Wav2Vec2FeatureExtractor, WavLMForXVector
 from utils import timer
-import numpy as np
 
 
 @timer
-def generate_embeddings_information():
+def generate_embeddings_information(attempt_gpu:bool=False):
     '''
     Goes through all the speakers and calculates
     the embeddings for all their files, using GPU for acceleration.
     '''
-    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    device = torch.device("cpu")
+
+    device = torch.device("cuda" if attempt_gpu and torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
     embeddings_dict = {}

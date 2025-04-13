@@ -8,3 +8,5 @@ Log file created
 2025-04-13 18:20:55 - compare_embeddings executed in 631.1718 seconds
 2025-04-13 18:26:50 - expand_summary_table executed in 354.7597 seconds
 2025-04-13 18:26:50 - Pipeline completed.
+2025-04-13 19:59:14 - expand_summary_table executed in 346.8752 seconds
+2025-04-13 20:15:09 - expand_summary_table executed in 95.9197 seconds
