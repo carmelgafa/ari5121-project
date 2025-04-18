@@ -1,0 +1,189 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{baevski2020wav2vec}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=e478046d4abc39e9814f6e364a736511}{%
+           family={Baevski},
+           familyi={B\bibinitperiod},
+           given={Alexei},
+           giveni={A\bibinitperiod}}}%
+        {{hash=86718cd959eccc231b89841a6abbde4c}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Yuhao},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=838ae213145f7410d963d9727504b2df}{%
+           family={Mohamed},
+           familyi={M\bibinitperiod},
+           given={Abdelrahman},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d3ff0eff0a1d1258618c88f2ec57095f}{%
+           family={Auli},
+           familyi={A\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{3e54e4e0c7457352871cb1cf97b9ed92}
+      \strng{fullhash}{f96a13c5747d71a5f892a49a4c2ea941}
+      \strng{fullhashraw}{f96a13c5747d71a5f892a49a4c2ea941}
+      \strng{bibnamehash}{3e54e4e0c7457352871cb1cf97b9ed92}
+      \strng{authorbibnamehash}{3e54e4e0c7457352871cb1cf97b9ed92}
+      \strng{authornamehash}{3e54e4e0c7457352871cb1cf97b9ed92}
+      \strng{authorfullhash}{f96a13c5747d71a5f892a49a4c2ea941}
+      \strng{authorfullhashraw}{f96a13c5747d71a5f892a49a4c2ea941}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Advances in neural information processing systems}
+      \field{title}{wav2vec 2.0: A framework for self-supervised learning of speech representations}
+      \field{volume}{33}
+      \field{year}{2020}
+      \field{pages}{12449\bibrangedash 12460}
+      \range{pages}{12}
+    \endentry
+    \entry{chen2022wavlm}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{hash=fec6e96e66dc4ec613be98a69575a181}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Sanyuan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=106fbca0ebdfe05ca8f32e1a4e032f65}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Chengyi},
+           giveni={C\bibinitperiod}}}%
+        {{hash=ff82893b27e2897faea27430c647bde6}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Zhengyang},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=497a9e1774032d32e4123020bfd16b7a}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Yu},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=2de7caf14b5d9b299f6937849f11f6e1}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Shujie},
+           giveni={S\bibinitperiod}}}%
+        {{hash=48c731464964d6c671b8384c3e00652c}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Zhuo},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=d270aa10662fa7c8d47b9f38aaf06bc9}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Jinyu},
+           giveni={J\bibinitperiod}}}%
+        {{hash=84d91cc05722fea8d7a0cc6caba674d6}{%
+           family={Kanda},
+           familyi={K\bibinitperiod},
+           given={Naoyuki},
+           giveni={N\bibinitperiod}}}%
+        {{hash=4e513f74051b8871c6d84ebc40e90240}{%
+           family={Yoshioka},
+           familyi={Y\bibinitperiod},
+           given={Takuya},
+           giveni={T\bibinitperiod}}}%
+        {{hash=3b4ea794b97e489cbf3e63344c4adb33}{%
+           family={Xiao},
+           familyi={X\bibinitperiod},
+           given={Xiong},
+           giveni={X\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{84c8fdfa0e45464ba369eff8b478fbb8}
+      \strng{fullhash}{59f8b04d33bd8854cfd283dcbbdd1b85}
+      \strng{fullhashraw}{59f8b04d33bd8854cfd283dcbbdd1b85}
+      \strng{bibnamehash}{84c8fdfa0e45464ba369eff8b478fbb8}
+      \strng{authorbibnamehash}{84c8fdfa0e45464ba369eff8b478fbb8}
+      \strng{authornamehash}{84c8fdfa0e45464ba369eff8b478fbb8}
+      \strng{authorfullhash}{59f8b04d33bd8854cfd283dcbbdd1b85}
+      \strng{authorfullhashraw}{59f8b04d33bd8854cfd283dcbbdd1b85}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Journal of Selected Topics in Signal Processing}
+      \field{number}{6}
+      \field{title}{Wavlm: Large-scale self-supervised pre-training for full stack speech processing}
+      \field{volume}{16}
+      \field{year}{2022}
+      \field{pages}{1505\bibrangedash 1518}
+      \range{pages}{14}
+    \endentry
+    \entry{najafian2016improving}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=d080872543c5c64dbeaeec069de6956d}{%
+           family={Najafian},
+           familyi={N\bibinitperiod},
+           given={Maryam},
+           giveni={M\bibinitperiod}}}%
+        {{hash=e59b2d1d549ff65d2c82435755f15578}{%
+           family={Safavi},
+           familyi={S\bibinitperiod},
+           given={Saeid},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c8cb2e9d80db3a476154be24112cb732}{%
+           family={Hansen},
+           familyi={H\bibinitperiod},
+           given={John\bibnamedelima HL},
+           giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=ba2049c5ae43321191b0357d7de8ff4e}{%
+           family={Russell},
+           familyi={R\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{486dd507750752854bcf5daf87a507b7}
+      \strng{fullhash}{70fd1a690b5ba287a4c621c0557cd0cf}
+      \strng{fullhashraw}{70fd1a690b5ba287a4c621c0557cd0cf}
+      \strng{bibnamehash}{486dd507750752854bcf5daf87a507b7}
+      \strng{authorbibnamehash}{486dd507750752854bcf5daf87a507b7}
+      \strng{authornamehash}{486dd507750752854bcf5daf87a507b7}
+      \strng{authorfullhash}{70fd1a690b5ba287a4c621c0557cd0cf}
+      \strng{authorfullhashraw}{70fd1a690b5ba287a4c621c0557cd0cf}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2016 IEEE 26th International Workshop on Machine Learning for Signal Processing (MLSP)}
+      \field{title}{Improving speech recognition using limited accent diverse British English training data with deep neural networks}
+      \field{year}{2016}
+      \field{pages}{1\bibrangedash 6}
+      \range{pages}{6}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

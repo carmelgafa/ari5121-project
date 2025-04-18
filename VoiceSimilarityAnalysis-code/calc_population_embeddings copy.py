@@ -9,8 +9,8 @@ import os
 import re
 import pickle
 import torch
+import torchaudio
 import pandas as pd
-import numpy as np
 from transformers import Wav2Vec2FeatureExtractor, WavLMForXVector
 from utils import timer
 
@@ -38,7 +38,7 @@ def generate_embeddings_information(attempt_gpu:bool=False):
     model = WavLMForXVector.from_pretrained(local_model_folder).to(device)
     model.eval()
 
-    cleansed_folder = os.path.join(os.path.dirname(__file__), 'data', 'preprocessed')
+    cleansed_folder = os.path.join(os.path.dirname(__file__), 'data', 'cleansed')
     accents = os.listdir(cleansed_folder)
 
     for accent in accents:
@@ -53,13 +53,20 @@ def generate_embeddings_information(attempt_gpu:bool=False):
                 speaker_path = os.path.join(gender_path, speaker)
 
                 for filename in os.listdir(speaker_path):
-                    if re.fullmatch(r'shortpassage.*\.npy', filename):
+                    if re.fullmatch(r'shortpassage.*\.wav', filename):
                         print(accent, gender, speaker, filename)
 
-
-                        audio_array = np.load(os.path.join(speaker_path, filename))
+                        waveform, original_sr = torchaudio.load(
+                            os.path.join(speaker_path, filename))
 
                         target_sr = 16000
+                        if original_sr != target_sr:
+                            resampler = torchaudio.transforms.Resample(
+                                orig_freq=original_sr, new_freq=target_sr)
+                            waveform = resampler(waveform)
+
+                        audio_array = waveform.squeeze().numpy()
+
                         # Extract features
                         inputs = feature_extractor(
                             [audio_array],
@@ -111,4 +118,4 @@ if __name__ == '__main__':
     print('Calculating embeddings for all speakers...')
     generate_embeddings_information()
 
-    # check_embeddings_count()
+    check_embeddings_count()

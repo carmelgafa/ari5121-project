@@ -183,6 +183,6 @@ def expand_summary_table():
 
 
 if __name__ == '__main__':
-    # compare_embeddings()
+    compare_embeddings()
 
     expand_summary_table()

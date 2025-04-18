@@ -44,7 +44,7 @@ def cleanse_data():
                    if not gender_folder.startswith('.')]
 
         # go through all genders in each accent
-        for gender in genders:  
+        for gender in genders:
             gender_folder = os.path.join(accent_path, gender)
             # go through each speaker in each gender
             # list all speakers
