@@ -23,6 +23,8 @@
 \setbeamercolor{definition}{bg=red!10, fg=black}
 \setbeamercolor{code}{bg=gray!15!white, fg=black}
 \setbeamercolor{example}{bg=yellow!10, fg=black}
+\definecolor{FormalDarkBlue}{RGB}{10,40,90}  
+\setbeamercolor{section title}{bg=FormalDarkBlue, fg=white}
 
 
 \begin{frame}[plain]
@@ -779,9 +781,31 @@
 \end{frame}
 
 
+\begin{frame}{From theory to implementation}
+	
+	Before diving into the implementation of AutoFJ for the single-column case, let us briefly revisit the key theoretical ideas that drive the algorithm. 
+	
+	\begin{itemize}
+		\item 	A fuzzy join configuration is defined by a join function and a threshold \( C = \langle f, \theta \rangle \), where \( f \) captures how similarity is computed, and \( \theta \) determines when two strings are similar enough to join.
+		
+		\item Multiple such configurations are explored in order to maximize recall while satisfying a user-defined precision constraint \( \tau \).
+		
+		\item Precision is estimated without labeled data using a geometric heuristic based on how isolated a match is in the reference table \( L \). 
+		
+		\item  The algorithm selects an optimal set of configurations \( \mathcal{U} \subseteq \mathcal{F} \times \Theta \) through a greedy strategy that maximizes true positives while minimizing false positives.
+	
+	\end{itemize}
+	
+ 
+	
+\end{frame}
+
+
 \begin{frame}{Auto-FuzzyJoin Algorithm: single column case}
 	\begin{columns}
 		\begin{column}{0.55\textwidth}
+			
+			
 			\textbf Recall-Maximizing Fuzzy Join (RM-FJ) is \textbf{NP-hard}. Use a \textbf{greedy approximation algorithm} called \texttt{AutoFJ}.
 			
 			\vspace{0.5em}
@@ -890,6 +914,9 @@
 	
 	\vspace{0.5em}
 	
+	This step implements the \textit{blocking} stage described in the theoretical framework. The goal is to reduce the number of candidate pairs from $L \times R$ by quickly eliminating obviously dissimilar records. Blocking uses 3-gram tokenization and TF-IDF weighting to prioritize pairs that share meaningful substrings. Only pairs that pass this filter proceed to the more expensive distance computation phase.
+	
+	
 
 	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{example}
 		\textbf{Reference Table $L$:}
@@ -899,31 +926,31 @@
 			$l_3$ & \texttt{"alice johnson"}
 		\end{tabular}
 		
-		\vspace{0.5em}
+
 		\textbf{Query Record $r_1$:} \texttt{"jon smyth"}
 		
-		\vspace{0.5em}
+
 		\textbf{Step 1: Preprocessing (P)}
 		\begin{itemize}
 			\item Lowercasing (already lowercase)
 			\item Add padding for 3-grams: e.g., \texttt{"john smith"} $\rightarrow$ \texttt{"\#\#john\#smith\#\#"}
 		\end{itemize}
 		
-		\vspace{0.5em}
+
 		\textbf{Step 2: Tokenization (T)}
 		\begin{itemize}
 			\item $r_1$: \texttt{\#\#j, \#jo, jon, on\# , n\#s, \#sm, smy, myt, yth, th\#, h\#\#}
 			\item $l_1$, $l_2$: similar 3-gram sequences
 		\end{itemize}
 		
-		\vspace{0.5em}
+
 		\textbf{Step 3: Token Weighting (W)}
 		\begin{itemize}
 			\item Use TF-IDF to emphasize rare, meaningful trigrams (e.g., \texttt{smy}, \texttt{yth})
 			\item $r_1$–$l_2$: \textbf{High score(rare overlapping trigrams)}, $r_1$–$l_1$: Medium (more common overlap), $r_1$–$l_3$: Zero (no shared trigrams)
 		\end{itemize}
 		
-		\vspace{0.5em}
+
 		\textbf{Blocking Result:}
 		\begin{itemize}
 			\item Only compare $r_1$ with $l_1$, $l_2$ $\rightarrow$ prune $l_3$
@@ -933,6 +960,10 @@
 	
 \end{frame}
 
+\begin{frame}
+This step corresponds to the theoretical concept of \textit{negative rule learning}, where patterns of dissimilarity within the reference table $L$ are used to eliminate poor candidate matches before computing distances. These rules are designed to catch non-matching pairs that may appear similar due to superficial token overlap but are semantically distinct. Filtering based on these learned rules improves both computational efficiency and overall precision.
+
+\end{frame}
 
 \begin{frame}{2. Optimization - filtering with negative rules}
 	
@@ -941,7 +972,8 @@
 		\texttt{LR $\leftarrow$ Learn negative-rules from \textit{LL} and apply rules on \textit{LR} (Alg. 2)}
 	\end{beamercolorbox}
 
-	\vspace{0.5em}
+
+	
 
 	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{example}
 		\textit{\small Assumption: Although 3-gram blocking may have pruned $l_3$, we assume here it was retained due to weak overlap, allowing us to illustrate negative-rule filtering.}
@@ -977,6 +1009,15 @@
 		\vspace{0.5em}
 		\textbf{Effect:} \textit{Filter out clearly irrelevant pairs early — no need to compute Jaccard or Edit Distance!}
 	\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}
+	This step directly implements the fuzzy join function $f(l, r)$ as defined in the theoretical framework. Each join function is composed of a preprocessing step $P$, a tokenization strategy $T$, a token weighting scheme $W$, and a distance metric $D$. The full join function is expressed as:
+	\[
+	f(l, r) = D(W(T(P(l))), W(T(P(r))))
+	\]
+	Multiple such functions are evaluated in parallel, each capturing different notions of similarity. The results will later be used to select the most effective join configurations under precision constraints.
+	
 \end{frame}
 
 
@@ -1033,6 +1074,11 @@
 	\end{beamercolorbox}
 \end{frame}
 
+
+\begin{frame}
+	This step implements the core optimization loop of AutoFJ, which is guided by the objective of maximizing recall while ensuring the estimated precision remains above a threshold $\tau$. The goal is to identify a subset of join configurations $\mathcal{U} \subseteq \mathcal{F} \times \Theta$ that collectively yield the most high-quality joins. A greedy approximation is used due to the NP-hardness of the problem, incrementally adding the most profitable configuration $C$ that increases true positives without violating the precision constraint.
+	
+\end{frame}
 
 
 
@@ -1293,6 +1339,123 @@
 		\textbf{Result:} \textit{"jon smyth" is matched to "john smith" (Edit Distance), since it has higher estimated precision ($0.5 > 0.2$).}
 	\end{beamercolorbox}
 			
+\end{frame}
+
+
+\section{AutoFJ Architecture}
+
+\begin{frame}[plain]
+	\begin{beamercolorbox}[wd=\paperwidth,ht=0.7\paperheight,dp=2ex,center]{section title}
+		\usebeamerfont{section title}
+		\Huge \textbf{\insertsection}
+	\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}[fragile]{AutoFJ Codebase Structure}
+	\begin{verbatim}
+		
+		autofj/
+		|-- 50-single-column-datasets.md           # Documentation describing benchmark datasets
+		|-- autofj.py                              # Main driver script for AutoFJ
+		|-- datasets.py                            # Loads and preprocesses datasets
+		|-- negative_rule.py                       # Learns rules to prevent false matches
+		|-- utils.py                               # General-purpose utility functions
+		|-- benchmark/                             # Contains all test datasets and benchmarks
+		|-- blocker/                               # Blocking component
+		|   |-- autofj_blocker.py                  # AutoFJ-specific record blocking
+		|   |-- blocker.py                         # General blocking logic
+		|-- optimizer/                             # Greedy optimization logic
+		|   |-- autofj_multi_column_greedy_algorithm.py   # Multi-column join optimizer
+		|   |-- autofj_single_column_greedy_algorithm.py  # Single-column join optimizer
+			|-- join_function_space/                   # Parameter space for join functions
+		|   |-- autofj_join_function_space.py      # Constructs and manages the join function space
+		|   |-- options.py                         # Parameter definitions
+		|   |-- join_function/                     # Join function components
+		|   |   |-- autofj_join_function.py        # Encapsulates join logic
+		|   |   |-- distance_function.py           # Implements distance metrics
+		|   |   |-- join_function.py               # Computes scores for matching
+		|   |   |-- preprocessor.py                # Text cleaning and normalization
+		|   |   |-- tokenizer.py                   # Tokenization strategies
+		|   |   |-- token_weight.py                # Token weighting methods
+	\end{verbatim}
+\end{frame}
+
+
+\begin{frame}{Step 1: Start - Input Tables L and R}
+	\textbf{What it does:} \\
+	Loads the reference table $L$ and the noisy table $R$, possibly applying minimal preprocessing. \\[1ex]
+	\textbf{In code:} \\
+	\texttt{autofj/datasets.py} – Uses standard file loading and DataFrame operations to ingest raw datasets. It may include optional utilities to split or format tables.
+\end{frame}
+
+\begin{frame}{Step 2: Blocking}
+	\textbf{What it does:} \\
+	Reduces the number of comparisons by pruning unlikely matches based on token similarity. \\[1ex]
+	\textbf{In code:} \\
+	\texttt{autofj/blocker/autofj\_blocker.py} – Main entry point for blocking. \\
+	\texttt{autofj/blocker/blocker.py} – Constructs token sets using 3-gram decomposition, computes TF-IDF scores for each token, and retrieves candidate pairs via cosine similarity. \\
+	Function \texttt{block\_L\_L\_and\_L\_R()} returns top-$k$ most similar candidates from $L$ for each $r \in R$ based on TF-IDF weighted token overlap.
+\end{frame}
+%
+\begin{frame}{Step 3: Negative Rule Learning}
+	\textbf{What it does:} \\
+	Learns simple rules to eliminate false matches based on exclusive tokens (e.g., $2007 \ne 2008$ ) learned from intra-$L$ variation. \\[1ex]
+	\textbf{In code:} \\
+	\texttt{autofj/negative\_rule.py} \\
+	\texttt{learn\_negative\_rules(...)} identifies discriminative tokens from record pairs in $L$ differing by only one word. \\
+	\texttt{apply\_negative\_rules(...)} removes candidate $(l, r)$ pairs from $L \times R$ if they violate these rules.
+\end{frame}
+
+\begin{frame}{Step 4: Distance Computation}
+	\textbf{What it does:} \\
+	Computes similarity scores using various join function configurations $\langle P, T, W, D \rangle$. \\[1ex]
+	\textbf{In code:} \\
+	\texttt{autofj/join\_function\_space/autofj\_join\_function\_space.py} – Iterates over all valid combinations of preprocessing (lowercase, strip punctuation), tokenization (space or 3-gram), weighting (equal or TF-IDF), and distances (Jaccard, Cosine, Edit). \\
+	Each component is modularized:
+	\begin{itemize}
+		\item \texttt{preprocessor.py}: e.g., lowercase, remove punctuation
+		\item \texttt{tokenizer.py}: whitespace or n-gram based splitting
+		\item \texttt{token\_weight.py}: raw or IDF weighting
+		\item \texttt{distance\_function.py}: Jaccard, Edit, Cosine
+	\end{itemize}
+	Scores are stored in a large matrix for all candidate $(l, r)$ pairs under all functions.
+\end{frame}
+
+\begin{frame}{Step 5: Precision Estimation}
+	\textbf{What it does:} \\
+	Estimates the reliability of each predicted join $(l, r)$ using a geometric heuristic based on $L$. \\[1ex]
+	\textbf{In code:} \\
+	\texttt{autofj/autofj.py} – \texttt{estimate\_precision(...)} checks how ``isolated'' $l$ is in the embedding space: the fewer $l' \in L$ within a 2-ball of $l$, the higher the confidence. \\
+	This is a key innovation: it enables precision estimation without ground truth by assuming $L$ has no duplicates.
+\end{frame}
+
+\begin{frame}{Step 6: Greedy Configuration Selection}
+	\textbf{What it does:} \\
+	Selects join configurations that maximize recall while meeting a minimum precision threshold $\tau$. \\[1ex]
+	\textbf{In code:} \\
+	\texttt{autofj/optimizer/autofj\_single\_column\_greedy\_algorithm.py} – Implements a greedy loop where each candidate configuration $C = \langle f, \theta \rangle$ is scored using a profit function: $TP(C) / FP(C)$. \\
+	Configuration $C^*$ is added to $\mathcal{U}$ only if the precision of $\mathcal{U} \cup \{C^*\}$ remains $\geq \tau$.
+\end{frame}
+
+\begin{frame}{Step 7: Apply Selected Configurations}
+	\textbf{What it does:} \\
+	Applies all configurations in $\mathcal{U}$ to generate potential matches for each $r \in R$. \\[1ex]
+	\textbf{In code:} \\
+	\texttt{autofj/autofj.py} – Applies each $\langle f, \theta \rangle \in \mathcal{U}$ to the blocked pairs. If multiple $l$ satisfy $f(l, r) \leq \theta$, they are retained for conflict resolution.
+\end{frame}
+
+\begin{frame}{Step 8: Conflict Resolution}
+	\textbf{What it does:} \\
+	If multiple $l \in L$ match a single $r \in R$, pick the one with highest estimated precision. \\[1ex]
+	\textbf{In code:} \\
+	\texttt{autofj/autofj.py} – Function \texttt{get\_final\_join\_result(...)} evaluates local precision of each match using the 2-ball heuristic. The $l$ with the lowest neighborhood density is chosen.
+\end{frame}
+
+\begin{frame}{Step 9: Output - Final Join Result}
+	\textbf{What it does:} \\
+	Returns the final mapping $J: R \rightarrow L \cup \{\perp\}$ where each $r$ is assigned the best matching $l$ or none at all. \\[1ex]
+	\textbf{In code:} \\
+	\texttt{autofj.py} – Wraps the full join pipeline from blocking to conflict resolution and outputs the join set. Can be extended to include score thresholds, logs, and exporting joins.
 \end{frame}
 
 
