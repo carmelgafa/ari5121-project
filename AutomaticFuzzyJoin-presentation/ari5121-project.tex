@@ -35,12 +35,12 @@
 \begin{frame}{Fuzzy-join (or similarity join)}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.7\linewidth]{FuzzyJoin}
+		\includegraphics[width=0.7\linewidth]{img/img-fuzzyjoin-1}
 	\end{figure}
 
 	\begin{figure}
 		\centering
-		\includegraphics[width=1\linewidth]{img/FuzzyJoin_2}
+		\includegraphics[width=1\linewidth]{img/img-fuzzyjoin-2}
 	\end{figure}
 
 	\begin{itemize}
@@ -54,13 +54,13 @@
 \begin{frame}{Fuzzy-join configuration }
 	 \begin{tabular}{ccc}  
 		\begin{tabular}{c}
-			\includegraphics[width=0.2\linewidth]{img/FuzzyJoin_config_1.png}
+			\includegraphics[width=0.2\linewidth]{img/img-fuzzyjoin-config-1.png}
 		\end{tabular}
 		& \begin{tabular}{l}
-			\includegraphics[width=0.2\linewidth]{img/FuzzyJoin_config_2.png}
+			\includegraphics[width=0.2\linewidth]{img/img-fuzzyjoin-config-2.png}
 		\end{tabular}	
 		& \begin{tabular}{l}
-		\includegraphics[width=0.2\linewidth]{img/FuzzyJoin_config_3.png}
+		\includegraphics[width=0.2\linewidth]{img/img-fuzzyjoin-config-3.png}
 		\end{tabular}  \\
 	\end{tabular}
 	
@@ -111,7 +111,7 @@
 		
 	\begin{figure}
 		\centering
-				\includegraphics[width=0.7\linewidth]{img/join_configuration.png}
+				\includegraphics[width=0.7\linewidth]{img/img-join-configuration.png}
 	\end{figure}
 \end{frame}
 
@@ -246,7 +246,7 @@
 			\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{example}
 			
 				\centering
-				\includegraphics[width=\linewidth]{img/Pasted image 20250331152324.png}
+				\includegraphics[width=\linewidth]{img/img-single-join-problems.png}
 				
 				
 				\vspace{0.5em}
@@ -273,16 +273,11 @@
 \begin{frame}{Theoretical foundation: fuzzy join via multiple configurations}
 	
 	\begin{itemize}
-		\item To handle this diversity, the algorithm uses a \textbf{set of join configurations}:
+		\item To handle diversity, the algorithm uses a \textbf{set of join configurations}:
 		$$
 		U = \{C_1, C_2, \dots, C_K\}
 		$$
 		\item Instead of relying on a single configuration, the system computes join results from each.
-		\item This approach allows the system to:
-		\begin{itemize}
-			\item Accommodate diverse types of variations.
-			\item Improve overall recall by \textbf{combining multiple perspectives} on similarity.
-		\end{itemize}
 	\end{itemize}
 	
 	\vspace{1em}
@@ -417,16 +412,15 @@
 	\vspace{0.5em}
 	\textbf{Assumption: Complete Reference Table $L$}
 	\begin{itemize}
-		\item $L$ is assumed to contain \textbf{all possible true matches} for records in $R$.
-		\item Ensures that for each $r \in R$, there exists a correct match $l \in L$.
-		\item Simplifies analysis by reducing the chance of missing true positives due to an incomplete reference.
+		\item $L$ is assumed to contain \textbf{all possible true matches} for records in $R$, that is for each $r \in R$, there exists a correct match $l \in L$.
+		\item This simplifies analysis by reducing the chance of missing true positives due to an incomplete reference.
 	\end{itemize}
 	
 	\vspace{0.5em}
 	\textbf{Geometric View of the Distance Function $f$}
 	\begin{itemize}
 		\item Join function $f$ embeds records into a \textbf{metric space}.
-		\item Records are conceptually modelled as points on a \textbf{unit grid}.
+		\item Records are \textbf{conceptually} modelled as points on a \textbf{unit grid}.
 		\item Each $l \in L$ is surrounded by \textbf{close variants} (differing by a token, character, etc.).
 		\item The distance between each $l$ and the surrounding $r$'s is exploited by $\theta$ to compute join pairs.
 	\end{itemize}
@@ -510,7 +504,7 @@
 			\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{example}		
 				
 				\centering
-				\includegraphics[width=0.7\linewidth]{img/Pasted image 20250331211545.png}
+				\includegraphics[width=0.7\linewidth]{img/img-join-precision-complete.png}
 				
 				\begin{itemize}
 					\item To estimate the quality of joining $r_1$, we first find its nearest neighbor in $L$, which we’ll call $l_1$.
@@ -565,7 +559,7 @@
 		\begin{column}{0.43\textwidth}
 			\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{example}		
 				\centering
-				\includegraphics[width=0.7\linewidth]{img/Pasted image 20250331211607.png}
+				\includegraphics[width=0.7\linewidth]{img/img-join-precision-incomplete.png}
 			
 				\begin{itemize}
 					\item $r_2$ should join with $l_2$, but $l_2$ is \textbf{missing}
@@ -626,8 +620,8 @@
 	\textbf{4. Overall Precision and Recall}
 	\begin{beamercolorbox}[rounded=true, shadow=true, leftskip=1em, rightskip=1em]{definition}		
 	$$
-	\text{precision}(C) = \frac{TP(C)}{TP(C) + FP(C)} \quad\quad
-	\text{recall}(C) = TP(C)
+	\text{\textbf{precision}}(C) = \frac{TP(C)}{TP(C) + FP(C)} \quad\quad
+	\text{\textbf{recall}}(C) = TP(C)
 	$$
 	\end{beamercolorbox}
 	
@@ -844,7 +838,7 @@
 		
 		\begin{column}{0.45\textwidth}
 			\centering
-			\includegraphics[width=\linewidth]{img/autofj-algorithm.png}
+			\includegraphics[width=\linewidth]{img/img-autofj-algorithm.png}
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -961,7 +955,7 @@
 \end{frame}
 
 \begin{frame}
-This step corresponds to the theoretical concept of \textit{negative rule learning}, where patterns of dissimilarity within the reference table $L$ are used to eliminate poor candidate matches before computing distances. These rules are designed to catch non-matching pairs that may appear similar due to superficial token overlap but are semantically distinct. Filtering based on these learned rules improves both computational efficiency and overall precision.
+The next step corresponds to the theoretical concept of \textit{negative rule learning}, where patterns of dissimilarity within the reference table $L$ are used to eliminate poor candidate matches before computing distances. These rules are designed to catch non-matching pairs that may appear similar due to superficial token overlap but are semantically distinct. Filtering based on these learned rules improves both computational efficiency and overall precision.
 
 \end{frame}
 
@@ -1012,7 +1006,7 @@ This step corresponds to the theoretical concept of \textit{negative rule learni
 \end{frame}
 
 \begin{frame}
-	This step directly implements the fuzzy join function $f(l, r)$ as defined in the theoretical framework. Each join function is composed of a preprocessing step $P$, a tokenization strategy $T$, a token weighting scheme $W$, and a distance metric $D$. The full join function is expressed as:
+	The next step directly implements the fuzzy join function $f(l, r)$ as defined in the theoretical framework. Each join function is composed of a preprocessing step $P$, a tokenization strategy $T$, a token weighting scheme $W$, and a distance metric $D$. The full join function is expressed as:
 	\[
 	f(l, r) = D(W(T(P(l))), W(T(P(r))))
 	\]
@@ -1076,7 +1070,7 @@ This step corresponds to the theoretical concept of \textit{negative rule learni
 
 
 \begin{frame}
-	This step implements the core optimization loop of AutoFJ, which is guided by the objective of maximizing recall while ensuring the estimated precision remains above a threshold $\tau$. The goal is to identify a subset of join configurations $\mathcal{U} \subseteq \mathcal{F} \times \Theta$ that collectively yield the most high-quality joins. A greedy approximation is used due to the NP-hardness of the problem, incrementally adding the most profitable configuration $C$ that increases true positives without violating the precision constraint.
+	The next step implements the core optimization loop of AutoFJ, which is guided by the objective of maximizing recall while ensuring the estimated precision remains above a threshold $\tau$. The goal is to identify a subset of join configurations $\mathcal{U} \subseteq \mathcal{F} \times \Theta$ that collectively yield the most high-quality joins. A greedy approximation is used due to the NP-hardness of the problem, incrementally adding the most profitable configuration $C$ that increases true positives without violating the precision constraint.
 	
 \end{frame}
 
@@ -1342,12 +1336,19 @@ This step corresponds to the theoretical concept of \textit{negative rule learni
 \end{frame}
 
 
-\section{AutoFJ Architecture}
+\begin{frame}{AutoFJ pipeline}
+	\begin{figure}
+		\centering
+		\includegraphics[width=1\linewidth]{img/img-pipeline}
+	\end{figure}
+	
+\end{frame}
+
+
 
 \begin{frame}[plain]
 	\begin{beamercolorbox}[wd=\paperwidth,ht=0.7\paperheight,dp=2ex,center]{section title}
-		\usebeamerfont{section title}
-		\Huge \textbf{\insertsection}
+		\Huge \textbf{AutoFJ Architecture}
 	\end{beamercolorbox}
 \end{frame}
 
@@ -1382,82 +1383,167 @@ This step corresponds to the theoretical concept of \textit{negative rule learni
 
 
 \begin{frame}{Step 1: Start - Input Tables L and R}
-	\textbf{What it does:} \\
-	Loads the reference table $L$ and the noisy table $R$, possibly applying minimal preprocessing. \\[1ex]
-	\textbf{In code:} \\
-	\texttt{autofj/datasets.py} – Uses standard file loading and DataFrame operations to ingest raw datasets. It may include optional utilities to split or format tables.
+	\textbf{Function}
+	
+	Loads the reference table $L$ and the noisy table $R$, possibly applying minimal preprocessing.
+	
+	\vspace{2em}
+	
+	\textbf{Implementation}
+	
+	\begin{tabular}{l p{3in}}
+	\texttt{autofj/datasets.py}	&  Uses standard file loading and DataFrame operations to ingest raw datasets. It may include optional utilities to split or format tables.
+	\end{tabular}
+
 \end{frame}
 
 \begin{frame}{Step 2: Blocking}
-	\textbf{What it does:} \\
-	Reduces the number of comparisons by pruning unlikely matches based on token similarity. \\[1ex]
-	\textbf{In code:} \\
-	\texttt{autofj/blocker/autofj\_blocker.py} – Main entry point for blocking. \\
-	\texttt{autofj/blocker/blocker.py} – Constructs token sets using 3-gram decomposition, computes TF-IDF scores for each token, and retrieves candidate pairs via cosine similarity. \\
-	Function \texttt{block\_L\_L\_and\_L\_R()} returns top-$k$ most similar candidates from $L$ for each $r \in R$ based on TF-IDF weighted token overlap.
+	\textbf{Function}
+	
+	Reduces the number of comparisons by pruning unlikely matches based on token similarity.
+	
+	\vspace{2em}
+	
+	\textbf{Implementation}
+
+	\begin{tabular}{l p{2.5in}}
+	\texttt{autofj/blocker/autofj\_blocker.py}	&  Main entry point for blocking. \\
+	\texttt{autofj/blocker/blocker.py} & Constructs token sets using 3-gram decomposition, computes TF-IDF scores for each token, and retrieves candidate pairs via cosine similarity. Function \texttt{block\_L\_L\_and\_L\_R()} returns top-$k$ most similar candidates from $L$ for each $r \in R$ based on TF-IDF weighted token overlap.
+	\end{tabular}
 \end{frame}
-%
+
+
 \begin{frame}{Step 3: Negative Rule Learning}
-	\textbf{What it does:} \\
-	Learns simple rules to eliminate false matches based on exclusive tokens (e.g., $2007 \ne 2008$ ) learned from intra-$L$ variation. \\[1ex]
-	\textbf{In code:} \\
-	\texttt{autofj/negative\_rule.py} \\
-	\texttt{learn\_negative\_rules(...)} identifies discriminative tokens from record pairs in $L$ differing by only one word. \\
-	\texttt{apply\_negative\_rules(...)} removes candidate $(l, r)$ pairs from $L \times R$ if they violate these rules.
+	\textbf{Function}
+	
+	Learns simple rules to eliminate false matches based on exclusive tokens (e.g., $2007 \ne 2008$ ) learned from intra-$L$ variation.
+	
+	\vspace{2em}
+	
+	\textbf{Implementation}
+	
+	\begin{tabular}{l p{2.5in}}
+	\texttt{autofj/negative\_rule.py} & \\
+	\texttt{learn\_negative\_rules(...)} & identifies discriminative tokens from record pairs in $L$ differing by only one word. \\
+	\texttt{apply\_negative\_rules(...)} & removes candidate $(l, r)$ pairs from $L \times R$ if they violate these rules.
+\end{tabular}
 \end{frame}
 
 \begin{frame}{Step 4: Distance Computation}
-	\textbf{What it does:} \\
-	Computes similarity scores using various join function configurations $\langle P, T, W, D \rangle$. \\[1ex]
-	\textbf{In code:} \\
+	\textbf{Function}
+	
+	Computes similarity scores using various join function configurations $\langle P, T, W, D \rangle$.
+	
+	\vspace{2em}
+	
+	\textbf{Implementation}
+	
+	
 	\texttt{autofj/join\_function\_space/autofj\_join\_function\_space.py} – Iterates over all valid combinations of preprocessing (lowercase, strip punctuation), tokenization (space or 3-gram), weighting (equal or TF-IDF), and distances (Jaccard, Cosine, Edit). \\
+
+	\vspace{0.5em}
+	
 	Each component is modularized:
-	\begin{itemize}
-		\item \texttt{preprocessor.py}: e.g., lowercase, remove punctuation
-		\item \texttt{tokenizer.py}: whitespace or n-gram based splitting
-		\item \texttt{token\_weight.py}: raw or IDF weighting
-		\item \texttt{distance\_function.py}: Jaccard, Edit, Cosine
-	\end{itemize}
+
+	\vspace{0.5em}
+	
+	\begin{tabular}{l p{2.5in}}
+		\texttt{preprocessor.py} & e.g., lowercase, remove punctuation \\
+		\texttt{tokenizer.py} & whitespace or n-gram based splitting\\
+		\texttt{token\_weight.py} & raw or IDF weighting\\
+		\texttt{distance\_function.py}& Jaccard, Edit, Cosine
+	\end{tabular}
+
+	\vspace{0.5em}
+
 	Scores are stored in a large matrix for all candidate $(l, r)$ pairs under all functions.
 \end{frame}
 
 \begin{frame}{Step 5: Precision Estimation}
-	\textbf{What it does:} \\
-	Estimates the reliability of each predicted join $(l, r)$ using a geometric heuristic based on $L$. \\[1ex]
-	\textbf{In code:} \\
-	\texttt{autofj/autofj.py} – \texttt{estimate\_precision(...)} checks how ``isolated'' $l$ is in the embedding space: the fewer $l' \in L$ within a 2-ball of $l$, the higher the confidence. \\
+	\textbf{Function}
+	
+	Estimates the reliability of each predicted join $(l, r)$ using a geometric heuristic based on $L$.
+	
+	\vspace{2em}
+	
+	\textbf{Implementation}
+	
+	\texttt{autofj/autofj.py} – \texttt{estimate\_precision(...)} checks how ``isolated`` $l$ is in the embedding space: the fewer $l' \in L$ within a 2-ball of $l$, the higher the confidence. \\
 	This is a key innovation: it enables precision estimation without ground truth by assuming $L$ has no duplicates.
 \end{frame}
 
 \begin{frame}{Step 6: Greedy Configuration Selection}
-	\textbf{What it does:} \\
-	Selects join configurations that maximize recall while meeting a minimum precision threshold $\tau$. \\[1ex]
-	\textbf{In code:} \\
+	\textbf{Function}
+	
+	Selects join configurations that maximize recall while meeting a minimum precision threshold $\tau$.
+	
+	\vspace{2em}
+	
+	\textbf{Implementation}
+	
 	\texttt{autofj/optimizer/autofj\_single\_column\_greedy\_algorithm.py} – Implements a greedy loop where each candidate configuration $C = \langle f, \theta \rangle$ is scored using a profit function: $TP(C) / FP(C)$. \\
 	Configuration $C^*$ is added to $\mathcal{U}$ only if the precision of $\mathcal{U} \cup \{C^*\}$ remains $\geq \tau$.
 \end{frame}
 
 \begin{frame}{Step 7: Apply Selected Configurations}
-	\textbf{What it does:} \\
-	Applies all configurations in $\mathcal{U}$ to generate potential matches for each $r \in R$. \\[1ex]
-	\textbf{In code:} \\
-	\texttt{autofj/autofj.py} – Applies each $\langle f, \theta \rangle \in \mathcal{U}$ to the blocked pairs. If multiple $l$ satisfy $f(l, r) \leq \theta$, they are retained for conflict resolution.
+	\textbf{Function}
+	
+	Applies all configurations in $\mathcal{U}$ to generate potential matches for each $r \in R$.
+	
+	\vspace{2em}
+	
+	\textbf{Implementation}
+	
+	\begin{tabular}{l p{3in}}
+	\texttt{autofj/autofj.py} & Applies each $\langle f, \theta \rangle \in \mathcal{U}$ to the blocked pairs. If multiple $l$ satisfy $f(l, r) \leq \theta$, they are retained for conflict resolution.
+	\end{tabular}
+	
 \end{frame}
 
 \begin{frame}{Step 8: Conflict Resolution}
-	\textbf{What it does:} \\
-	If multiple $l \in L$ match a single $r \in R$, pick the one with highest estimated precision. \\[1ex]
-	\textbf{In code:} \\
-	\texttt{autofj/autofj.py} – Function \texttt{get\_final\_join\_result(...)} evaluates local precision of each match using the 2-ball heuristic. The $l$ with the lowest neighborhood density is chosen.
+	\textbf{Function}
+	
+	If multiple $l \in L$ match a single $r \in R$, pick the one with highest estimated precision.
+	
+	\vspace{2em}
+	
+	\textbf{Implementation}
+
+	\begin{tabular}{l p{3in}}	
+		\texttt{autofj/autofj.py} & Function \texttt{get\_final\_join\_result(...)} evaluates local precision of each match using the 2-ball heuristic. The $l$ with the lowest neighborhood density is chosen.
+	\end{tabular}
+
+
 \end{frame}
 
 \begin{frame}{Step 9: Output - Final Join Result}
-	\textbf{What it does:} \\
-	Returns the final mapping $J: R \rightarrow L \cup \{\perp\}$ where each $r$ is assigned the best matching $l$ or none at all. \\[1ex]
-	\textbf{In code:} \\
-	\texttt{autofj.py} – Wraps the full join pipeline from blocking to conflict resolution and outputs the join set. Can be extended to include score thresholds, logs, and exporting joins.
+	\textbf{Function}
+	
+	Returns the final mapping $J: R \rightarrow L \cup \{\perp\}$ where each $r$ is assigned the best matching $l$ or none at all.
+	
+	\vspace{2em}
+	
+	\textbf{Implementation}
+
+	\begin{tabular}{l p{3in}}	
+		\texttt{autofj.py} & Wraps the full join pipeline from blocking to conflict resolution and outputs the join set. Can be extended to include score thresholds, logs, and exporting joins.
+	\end{tabular}
+
+
 \end{frame}
 
+\begin{frame}[plain]
+	\begin{beamercolorbox}[wd=\paperwidth,ht=0.7\paperheight,dp=2ex,center]{section title}
+		\Huge \textbf{Testing}
+	\end{beamercolorbox}
+\end{frame}
+
+
+\begin{frame}[plain]
+	\begin{beamercolorbox}[wd=\paperwidth,ht=0.7\paperheight,dp=2ex,center]{section title}
+		\Huge \textbf{Possible improvements}
+	\end{beamercolorbox}
+\end{frame}
 
 
 \end{document}
