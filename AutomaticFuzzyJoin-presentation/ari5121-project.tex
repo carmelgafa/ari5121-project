@@ -1538,6 +1538,100 @@ The next step corresponds to the theoretical concept of \textit{negative rule le
 	\end{beamercolorbox}
 \end{frame}
 
+\begin{frame}{AutoFJ testing}
+	\begin{itemize}
+		\item AutoFJ has a comprehensive testing corpus that can be used to test the algorithm.
+		\item There are a total of 54 tests that can be executed. Each test contains:
+		\begin{itemize}
+			\item left table,
+			\item right table,
+			\item ground truth table, connecting the elements of the right table to the corresponding correct elements in the left table.
+		\end{itemize}
+		\item Each test return the precision, recall and F1 score
+		\item a script was created to execute all the test cases in the system
+		\begin{itemize}
+			\item 
+			\item 
+			\item 
+		\end{itemize}
+	\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+	A final test was created in Maltese for the system to go through the test creation process. It contained the following information:
+	
+	\begin{columns}
+		\begin{column}{0.25\textwidth}
+			
+			\tiny
+			\begin{table}
+				\centering
+				\begin{tabular}{|c|l|}
+					\hline
+					\textbf{id} & \textbf{title} \\ \hline
+					0 & Pastizzi \\
+					1 & Ftira biż-żejt \\
+					2 & Ftira bajd u laham \\
+					3 & Imqarrun il-forn \\
+					4 & Kannoli \\
+					5 & Kannelloni \\
+					6 & Timpana \\
+					7 & żiemel \\
+					8 & fenek moqli \\
+					9 & bebbux \\
+					10 & fenek stuffat \\
+					\hline
+				\end{tabular}
+				\caption{Left table}
+			\end{table}
+		\end{column}
+		\begin{column}{0.25\textwidth}
+			\tiny
+			\begin{table}
+				\centering
+				\begin{tabular}{|c|l|}
+					\hline
+					\textbf{id} & \textbf{title} \\ \hline
+					0 & pastizzi tal-irkotta \\
+					1 & ftira bit-tonn taż-żejt \\
+					2 & imqarrun fil-forn \\
+					3 & kannoli tal-irkotta \\
+					4 & timpana tradizzjonali \\
+					5 & laham taż-żiemel \\
+					6 & bebbux bl-arjoli \\
+					7 & fenek moqli bit-tewm \\
+					\hline
+				\end{tabular}
+				\caption{Right table}
+			\end{table}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\tiny
+			\begin{table}
+				\centering
+				\begin{tabular}{|c|l|c|l|}
+					\hline
+					\textbf{id\_l} & \textbf{title\_l} & \textbf{id\_r} & \textbf{title\_r} \\ \hline
+					0 & Pastizzi & 0 & pastizzi tal-irkotta \\
+					1 & Ftira biż-żejt & 1 & ftira bit-tonn taż-żejt \\
+					3 & Imqarrun il-forn & 2 & imqarrun fil-forn \\
+					4 & Kannoli & 3 & kannoli tal-irkotta \\
+					6 & Timpana & 4 & timpana tradizzjonali \\
+					7 & żiemel & 5 & laham taż-żiemel \\
+					9 & bebbux & 6 & bebbux bl-arjoli \\
+					8 & fenek moqli & 7 & fenek moqli bit-tewm \\
+					\hline
+				\end{tabular}
+				\caption{Ground truth}
+			\end{table}
+		\end{column}
+	\end{columns}
+
+	\textnormal{
+	Given the simplistic nature of the test, the algorithm matched all the right table items correctly.}
+\end{frame}
 
 \begin{frame}[plain]
 	\begin{beamercolorbox}[wd=\paperwidth,ht=0.7\paperheight,dp=2ex,center]{section title}

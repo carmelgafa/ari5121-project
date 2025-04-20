@@ -47,4 +47,5 @@ def test_autofj(dataset):
     print("Precision:", p, "Recall:", r, "F1:", f1)
 
 if __name__ == '__main__':
-    test_autofj("Maltese")
+    test_autofj("Stadium")
+

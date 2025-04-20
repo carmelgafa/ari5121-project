@@ -6,6 +6,7 @@ src/autofj/__init__.py
 src/autofj/autofj.py
 src/autofj/datasets.py
 src/autofj/negative_rule.py
+src/autofj/test_autofj.py
 src/autofj/utils.py
 src/autofj.egg-info/PKG-INFO
 src/autofj.egg-info/SOURCES.txt

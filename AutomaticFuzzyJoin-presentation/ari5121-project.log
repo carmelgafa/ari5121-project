@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.1)  20 APR 2025 09:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.1)  20 APR 2025 21:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1666,13 +1666,41 @@ Overfull \hbox (96.75862pt too wide) in paragraph at lines 1539--1539
 [51
 
 ]
-Overfull \hbox (96.75862pt too wide) in paragraph at lines 1546--1546
+Overfull \hbox (96.75862pt too wide) in paragraph at lines 1559--1559
  [][][][]  
  []
 
 
 
+
+Overfull \hbox (96.75862pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
 [52
+
+]
+Overfull \hbox (96.75862pt too wide) in paragraph at lines 1634--1634
+ [][][][]  
+ []
+
+
+
+
+Overfull \hbox (96.75862pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[53
+
+]
+Overfull \hbox (96.75862pt too wide) in paragraph at lines 1640--1640
+ [][][][]  
+ []
+
+
+
+[54
 
 ]
 \tf@nav=\write6
@@ -1693,10 +1721,10 @@ Package rerunfilecheck Info: File `ari5121-project.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 22514 strings out of 473523
- 443259 string characters out of 5724698
- 811087 words of memory out of 5000000
- 45167 multiletter control sequences out of 15000+600000
+ 22550 strings out of 473523
+ 443919 string characters out of 5724698
+ 813231 words of memory out of 5000000
+ 45199 multiletter control sequences out of 15000+600000
  570956 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,17n,123p,576b,822s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1714,9 +1742,9 @@ onts/cm/cmsy6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7
 .pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb><C:/Prog
 ram Files/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Program File
 s/MiKTeX/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on ari5121-project.pdf (52 pages, 1288202 bytes).
+Output written on ari5121-project.pdf (54 pages, 1302291 bytes).
 PDF statistics:
- 2009 PDF objects out of 2073 (max. 8388607)
- 105 named destinations out of 1000 (max. 500000)
+ 2065 PDF objects out of 2073 (max. 8388607)
+ 109 named destinations out of 1000 (max. 500000)
  1460 words of extra memory for PDF output out of 10000 (max. 10000000)
 
