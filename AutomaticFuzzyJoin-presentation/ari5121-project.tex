@@ -1541,7 +1541,7 @@ The next step corresponds to the theoretical concept of \textit{negative rule le
 \begin{frame}{AutoFJ testing}
 	\begin{itemize}
 		\item AutoFJ has a comprehensive testing corpus that can be used to test the algorithm.
-		\item There are a total of 54 tests that can be executed. Each test contains:
+		\item There are a total of 50 tests that can be executed. Each test contains:
 		\begin{itemize}
 			\item left table,
 			\item right table,
@@ -1550,9 +1550,9 @@ The next step corresponds to the theoretical concept of \textit{negative rule le
 		\item Each test return the precision, recall and F1 score
 		\item a script was created to execute all the test cases in the system
 		\begin{itemize}
-			\item 
-			\item 
-			\item 
+			\item Auto-FuzzyJoin prioritizes precision (in 27 out of 48 classes it was greater than 0.9), confirming that Auto-FuzzyJoin is tuned to minimize false positives, making it especially suitable for applications where incorrect joins are costly, such as data cleaning or compliance.
+			\item Despite high precision, 13 classes have recall below 0.4, that is AutoFJ misses many true matches in some domains.
+			\item Auto-FuzzyJoin excels with consistent naming conventions, low ambiguity, or where string variation is minor.
 		\end{itemize}
 	\end{itemize}
 
@@ -1637,6 +1637,42 @@ The next step corresponds to the theoretical concept of \textit{negative rule le
 	\begin{beamercolorbox}[wd=\paperwidth,ht=0.7\paperheight,dp=2ex,center]{section title}
 		\Huge \textbf{Possible improvements}
 	\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}{A learnable distance function}
+	
+
+	In the current system, for two strings $l$ and $r$, Auto-FJ applies:
+	
+	$$f(l,r)=D(W(T(P(l))),W(T(P(r))))$$
+	Where:
+	
+	\begin{itemize}
+		\item $P$: Preprocessing (e.g., lowercase, remove punctuation)
+		\item $T$: Tokenization (e.g., word, 3-gram)
+		\item $W$: Weighting (e.g., equal weight, TF-IDF)
+		\item $D$: Distance metric (Jaccard, Cosine, Edit, etc.)
+	\end{itemize}
+	
+	This is chosen from a space $\mathcal{F}$ of symbolic functions, and then thresholds are tuned.
+	One can investigate replacing $f(l, r)$ with a parametric, learnable function $f_\theta(l, r)$ that can generalize across tasks:
+
+	$$f_{\theta} = sim(g_{\theta}(l),g_{\theta}(r))$$
+
+	Where:
+
+	\begin{itemize}
+		\item $g_\theta$: A neural encoder (shared or non-shared)
+		\item $\text{sim}$: Similarity function (dot product, cosine, etc.)
+	\end{itemize}
+
+	A simple option is to use a pretrained Sentence-BERT encoder:
+
+
+	$$f_{\theta}(l,r)=1-cos(g_{SBERT}(l), g_{SBERT}	(r))$$
+
+	This option does not need to train the encoder if we start with pretrained SBERT.
+
 \end{frame}
 
 

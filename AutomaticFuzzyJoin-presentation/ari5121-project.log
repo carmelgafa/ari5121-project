@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.1)  20 APR 2025 21:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.1)  21 APR 2025 22:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1703,6 +1703,20 @@ Overfull \hbox (96.75862pt too wide) in paragraph at lines 1640--1640
 [54
 
 ]
+Overfull \hbox (96.75862pt too wide) in paragraph at lines 1676--1676
+ [][][][]  
+ []
+
+
+
+
+Overfull \hbox (96.75862pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[55
+
+]
 \tf@nav=\write6
 \openout6 = `ari5121-project.nav'.
 
@@ -1721,30 +1735,38 @@ Package rerunfilecheck Info: File `ari5121-project.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 22550 strings out of 473523
- 443919 string characters out of 5724698
- 813231 words of memory out of 5000000
- 45199 multiletter control sequences out of 15000+600000
+ 22560 strings out of 473523
+ 444016 string characters out of 5724698
+ 813339 words of memory out of 5000000
+ 45205 multiletter control sequences out of 15000+600000
  570956 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,17n,123p,576b,822s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmex7.pfb><C:/Pr
-ogram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmitt10.pfb><C:/Program Files
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/
-cmss10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C
-:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Program 
-Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmssi10.pfb><C:/Program Files/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmssi8.pfb><C:/Program Files/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmsy5.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsf
-onts/cm/cmsy6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7
-.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb><C:/Prog
-ram Files/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Program File
-s/MiKTeX/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on ari5121-project.pdf (54 pages, 1302291 bytes).
+
+pdfTeX warning (dest): name{Navigation56} has been referenced but does not exis
+t, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{Navigation57} has been referenced but does not exis
+t, replaced by a fixed one
+
+<C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmex7.pfb><C:/Prog
+ram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmitt10.pfb><C:/Program Files/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/a
+msfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cm
+ss10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/
+Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Program Fi
+les/MiKTeX/fonts/type1/public/amsfonts/cm/cmssi10.pfb><C:/Program Files/MiKTeX/
+fonts/type1/public/amsfonts/cm/cmssi8.pfb><C:/Program Files/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmsy5.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmsy6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.p
+fb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb><C:/Progra
+m Files/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Program Files/
+MiKTeX/fonts/type1/public/cm-super/sftt0800.pfb>
+Output written on ari5121-project.pdf (55 pages, 1309681 bytes).
 PDF statistics:
- 2065 PDF objects out of 2073 (max. 8388607)
- 109 named destinations out of 1000 (max. 500000)
+ 2095 PDF objects out of 2487 (max. 8388607)
+ 113 named destinations out of 1000 (max. 500000)
  1460 words of extra memory for PDF output out of 10000 (max. 10000000)
 
