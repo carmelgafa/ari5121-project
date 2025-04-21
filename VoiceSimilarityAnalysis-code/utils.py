@@ -6,7 +6,6 @@ Utility functions
 import time
 import os
 
-
 def timer(func):
     '''
     A decorator to time the execution of a function
@@ -22,7 +21,6 @@ def timer(func):
 
         return result
     return wrapper
-
 
 def log_message(message):
     '''
