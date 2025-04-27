@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.1)  27 APR 2025 11:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.1)  27 APR 2025 13:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -675,12 +675,65 @@ File: img/img-resampling.png Graphic file (type png)
 <use img/img-resampling.png>
 Package pdftex.def Info: img/img-resampling.png  used on input line 143.
 (pdftex.def)             Requested size: 226.79846pt x 181.16031pt.
-<img/img-pipeline.jpg, id=24, 676.02562pt x 518.6878pt>
+<img/img-pipeline.jpg, id=24, 682.80093pt x 514.92375pt>
 File: img/img-pipeline.jpg Graphic file (type jpg)
 <use img/img-pipeline.jpg>
 Package pdftex.def Info: img/img-pipeline.jpg  used on input line 156.
-(pdftex.def)             Requested size: 252.0pt x 193.35193pt.
+(pdftex.def)             Requested size: 252.0pt x 190.03952pt.
 
+
+
+Overfull \hbox (12.94774pt too wide) in paragraph at lines 164--165
+[]\OT1/ptm/m/n/10 I used the pre-trained \OT1/pcr/m/n/10 microsoft/wavlm-base-p
+lus-sv
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 167--168
+[]\OT1/ptm/m/n/10 Only au-dio files match-ing the pat-tern
+ []
+
+
+Underfull \hbox (badness 5563) in paragraph at lines 167--168
+\OT1/pcr/m/n/10 shortpassage*.wav \OT1/ptm/m/n/10 were re-tained from the ABI-
+ []
+
+
+Underfull \hbox (badness 3838) in paragraph at lines 167--168
+\OT1/ptm/m/n/10 1 Cor-pus. Each file was re-sam-pled to 16kHz us-ing
+ []
+
+
+Underfull \hbox (badness 4752) in paragraph at lines 167--168
+\OT1/pcr/m/n/10 torchaudio.transforms.Resample \OT1/ptm/m/n/10 and saved as
+ []
+
+
+Underfull \hbox (badness 4739) in paragraph at lines 167--168
+\OT1/ptm/m/n/10 com-pat-i-bil-ity with the WavLM model while re-duc-ing
+ []
+
+
+Underfull \hbox (badness 6477) in paragraph at lines 172--173
+[]\OT1/ptm/m/n/10 Intra-speaker com-par-isons (same speaker, dif-fer-ent
+ []
+
+
+
+[2 <./img/img-resampling.png> <./img/img-pipeline.jpg>]
+Underfull \hbox (badness 1565) in paragraph at lines 187--188
+[]\OT1/ptm/m/n/10 Several thresh-olds were tested to dis-tin-guish be-tween
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 200--201
+\OT1/ptm/m/n/10 Speaker IDs fol-lowed a stan-dard-ized
+ []
+
+
+Underfull \hbox (badness 4726) in paragraph at lines 200--201
+\OT1/pcr/m/n/10 Accent-Gender-SpeakerID \OT1/ptm/m/n/10 for-mat and were later
+ []
 
 
 ** Conference Paper **
@@ -695,7 +748,11 @@ Before submitting the final camera ready copy, remember to:
 
 
 
-[2 <./img/img-resampling.png> <./img/img-pipeline.jpg>] (ARI5121Assignment.aux)
+
+
+[3
+
+] (ARI5121Assignment.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -705,10 +762,10 @@ Package logreq Info: Writing requests to 'ARI5121Assignment.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 14088 strings out of 473523
- 251308 string characters out of 5724698
+ 14091 strings out of 473523
+ 251388 string characters out of 5724698
  1090132 words of memory out of 5000000
- 37179 multiletter control sequences out of 15000+600000
+ 37182 multiletter control sequences out of 15000+600000
  594608 words of font info for 100 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  66i,9n,81p,708b,1526s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -725,9 +782,9 @@ pe1/public/amsfonts/symbols/msbm10.pfb><C:/Program Files/MiKTeX/fonts/type1/urw
 C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiK
 TeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/t
 imes/utmri8a.pfb>
-Output written on ARI5121Assignment.pdf (2 pages, 392876 bytes).
+Output written on ARI5121Assignment.pdf (3 pages, 402521 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
+ 94 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

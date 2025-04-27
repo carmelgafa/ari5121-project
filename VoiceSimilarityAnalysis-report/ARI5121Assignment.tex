@@ -158,6 +158,52 @@ $$x_{\downarrow 3}[n] = x[0], x[3], x[6], x[9], \dots$$
 	\label{fig:img-pipeline}
 \end{figure}
 
+
+
+\subsection*{Embedding Extraction Using the WavLM Model}
+I used the pre-trained \texttt{microsoft/wavlm-base-plus-sv} model, downloaded locally from Hugging Face using the \texttt{transformers} library. The model was loaded in evaluation mode and used to generate speaker-level embeddings through \texttt{WavLMForXVector}. Input waveforms were prepared via the associated \texttt{Wav2Vec2FeatureExtractor}, ensuring correct sampling rate and tensor formatting.
+
+\subsection*{Audio Preprocessing}
+Only audio files matching the pattern \texttt{shortpassage*.wav} were retained from the ABI-1 Corpus. Each file was resampled to 16\,kHz using \texttt{torchaudio.transforms.Resample} and saved as NumPy arrays (\texttt{.npy}) for efficient processing. This ensured compatibility with the WavLM model while reducing preprocessing overhead during embedding extraction.
+
+\subsection*{Aggregation and Similarity Computation}
+Each speaker’s embeddings were aggregated by concatenating all available utterance-level vectors. Pairwise cosine similarities were computed for:
+\begin{itemize}
+	\item Intra-speaker comparisons (same speaker, different recordings)
+	\item Inter-speaker comparisons (different speakers)
+\end{itemize}
+The \texttt{torch.nn.CosineSimilarity} function was used to calculate similarity values. These were saved into both raw and summary CSV files for further evaluation.
+
+\subsection*{Dimensionality Reduction and Visualization}
+To analyze speaker embedding separability, I plotted cosine similarity distributions using \texttt{seaborn} histograms and KDE curves. Separate visualizations were generated for:
+\begin{itemize}
+	\item Same-speaker pairs
+	\item Different-speaker same-gender pairs
+	\item Cross-gender speaker pairs
+\end{itemize}
+Range plots were used to highlight typical similarity intervals, offering visual guidance on threshold selection.
+
+\subsection*{Threshold Selection and Accuracy Evaluation}
+Several thresholds were tested to distinguish between "same" and "different" speaker pairs. Using these thresholds, identification accuracy was computed as the proportion of correctly labeled pairs over total comparisons. Descriptive statistics and distribution plots supported the choice of an optimal threshold that maximized true positives while minimizing false positives.
+
+\subsection*{Confusion Matrix Analysis}
+Confusion matrices were generated at varying thresholds to measure classification performance in terms of true positives, false positives, true negatives, and false negatives. These matrices helped identify critical error patterns and assess the system's robustness under different decision boundaries.
+
+\subsection*{Experimental Setup and Execution Pipeline}
+The full experiment was orchestrated using the script \texttt{execute\_pipeline.py}, which sequentially executes:
+\begin{enumerate}
+	\item Dataset and model download
+	\item Data cleansing and preprocessing
+	\item Embedding extraction
+	\item Similarity computation and analysis
+\end{enumerate}
+Speaker IDs followed a standardized \texttt{Accent-Gender-SpeakerID} format and were later expanded for analysis of accent, gender, and individual trends.
+
+
+
+
+
+
 \section{Evaluation and results}
 
 
