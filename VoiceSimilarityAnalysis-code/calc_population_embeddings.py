@@ -80,7 +80,7 @@ def generate_embeddings_information(attempt_gpu:bool=False):
                         else:
                             embeddings_dict[speaker_id] = embeddings
 
-    # Move embeddings to CPU for saving
+
     df = pd.DataFrame([
         {'Speaker': speaker, 'Embedding': emb}
         for speaker, emb in embeddings_dict.items()
