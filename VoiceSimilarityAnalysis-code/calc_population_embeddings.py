@@ -106,7 +106,6 @@ def check_embeddings_count():
     print(df.head(1)['Embedding'][0].shape)
 
 
-
 if __name__ == '__main__':
     print('Calculating embeddings for all speakers...')
     generate_embeddings_information()
