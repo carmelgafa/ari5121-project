@@ -52,7 +52,7 @@ The Accents of the British Isles (ABI) Corpus represents 13 regional accents. Fi
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{img/img-abi-corpus-accents}
-	\caption{Accents represented by the ABI Corpus\cite{najafian2016improving}.}
+	\caption{List of accent codes and their corresponding geographical locations in the ABI-1 corpus\cite{najafian2016improving}. The accents are grouped into four regional categories: Southern, Irish, Northern, and Scottish. This structure is used throughout the analysis to evaluate speaker similarity across and within regional accent groups.}
 	\label{fig:img-abi-corpus-accents}
 \end{figure}
 
@@ -138,7 +138,7 @@ $$x_{\downarrow 3}[n] = x[0], x[3], x[6], x[9], \dots$$
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth]{img/img-resampling}
-	\caption{}
+	\caption{Visualization of the signal processing steps applied during audio preprocessing. The top plot shows the original and filtered signals, highlighting the smoothing effect of the filter. The bottom plot illustrates the effect of resampling the filtered signal to a target rate (e.g., 16\,kHz), with the resampled signal closely tracking the filtered one, preserving the original signal’s structure while adjusting its temporal resolution.}
 	\label{fig:img-resampling}
 \end{figure}
 
@@ -168,11 +168,11 @@ In this section, we will discuss the implementation of the speaker voice similar
 
 As discussed in Section \ref{sec:data-processing}, three audio files are available for each speaker in the ABI-1 dataset, and these will be used to determine the similarity of any speaker to all other speakers in the dataset. The following approach is used to determine similarity in this exercise.
 
-Each audio file is compared with the other audio files for a given speaker, a total of four comparisons, and the minimum value is retained as the self-comparison result.
+Each audio file is compared with the other audio files for a given speaker, a total of $\binom{3}{2} = 3$ comparisons, and the minimum value is retained as the intra-comparison result.
 
 For every speaker combination in the dataset, each audio file of one speaker is compared to all the audio files of the other speaker, a total of nine comparisons and the maxim value is retained as the inter-comparison result.
 
-This approach will determine the thresholds and results that provide, beyond any doubt, the best separation possible, as the minimum distance between self and inter-comparisons will be examined.
+This approach will determine the thresholds and results that ensure maximum separation, as the minimum distance between intra and inter-comparisons will be examined.
 
 
 
@@ -181,79 +181,110 @@ This approach will determine the thresholds and results that provide, beyond any
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/img-pipeline}
-	\caption{}
+	\caption{Overview of the speaker similarity analysis pipeline and associated file structure. Each processing stage—download, cleanse, preprocess, embeddings calculation, and embeddings comparison—produces outputs stored in dedicated folders. The flow diagram on the left outlines the logical sequence, while the table maps each module to its corresponding outputs across the \texttt{data}, \texttt{model}, and \texttt{log} directories.}
+	
 	\label{fig:img-pipeline}
 \end{figure}
 
 Figure \ref{fig:img-pipeline} shows the flow that was implemented as part of this project, which is made up of the following modules:
 \begin{itemize}
 	\item \textbf{Download}. In the first step of the pipeline, the \texttt{ABI-1} dataset archive is downloaded and placed in the \texttt{data/download} folder. The contents are then extracted and placed in the \texttt{data/raw folder}. The \texttt{ABI-1} structure has an \texttt{accents/genders/speakers} structure, whereby accents folders contain a male and female folder for each speaker. At this point, the data also contains additional data, such as transcription information.
-	The \texttt{wavlm-base-plus-sv} model is also downloaded and placed in the \texttt{model} folder.
+	The \texttt{wavlm-base-plus-sv} model is also downloaded from Hugging Face using the \texttt{transformers} library and placed in the \texttt{model} folder.
 	This module also contains the functionality to create the data, module and log folder structure that is necessary for this project.
 	
-	\item \textbf{Cleanse}. In the next step, the contents of each speaker, in each gender and each accent in the raw data are examined, and the files having a "\texttt{.wav}" extension are retained. The results are placed in an identical folder structure in the \texttt{data/cleansed} folder.
+	\item \textbf{Cleanse}. In the next step, the contents of each speaker, in each gender and each accent in the raw data are examined, and the files matching the pattern \texttt{shortpassage*.wav} are retained. The results are placed in an identical folder structure in the \texttt{data/cleansed} folder.
 	
-	\item \textbf{Preprocess}. As we have discussed in Section \ref{ssec:signal-resampling}, the audio files need are preprocessed to 16KHz so that their embeddings can be evaluated by the model. In this next step, all the audio files of each speaker, in each gender and accent in the raw data folder are loaded and resampled. The resulting \texttt{numpy} arrays are placed in an identical folder structure in the \texttt{data/preprocessed} folder.
+	\item \textbf{Preprocess}. As we have discussed in Section \ref{ssec:signal-resampling}, the audio files need are preprocessed to 16KHz using \texttt{torchaudio.transforms.Resample} so that their embeddings can be evaluated by the model. In this next step, all the audio files of each speaker, in each gender and accent in the raw data folder are loaded and resampled. The resulting \texttt{numpy} arrays are placed in an identical folder structure in the \texttt{data/preprocessed} folder.
 	
-	\item \textbf{Embedding calculation}. In the next step, the \texttt{wavlm-base-plus-sv} model calculates the embeddings for each audio data file. Each embedding is effectively a 512-element vector, so a $3 \times 512$ array is created for each speaker. The embedding information was stored in a dictionary data structure with "\texttt{accent-gender-speaker}" as key and the embedding array as the value during processing. It was then converted to a\texttt{pandas} \texttt{DataFrame} and saved as a pickle file in the \texttt{data/embeddings}.
+	\item \textbf{Embedding calculation}. In the next step, the \texttt{wavlm-base-plus-sv} model calculates the embeddings for each audio data file. Each embedding is effectively a 512-element vector, so a $3 \times 512$ array is created for each speaker. The embedding information was stored in a dictionary data structure with "\texttt{accent-gender-speaker}" as key and the embedding array as the value during processing. It was then converted to a \texttt{pandas} \texttt{DataFrame} and saved as a pickle file in the \texttt{data/embeddings}.
 	
-	\item \textbf{Comparison}. The final step of the pipeline implements cosine-similarity comparison using the strategy explained in Section \ref{ssec:comparison-strategy}. Two files are generated in this process:
+	\item \textbf{Comparison}. The final step of the pipeline implements pairwise cosine-similarity using the strategy explained in Section \ref{ssec:comparison-strategy}. Two files are generated in this process:
 	\begin{itemize}
-		\item A raw results file contains the results of all comparisons: a set of three for self-comparison and a set of nine for inter-comparison.
+		\item A raw results file contains the results of all comparisons: a set of three for intra-comparison and a set of nine for inter-comparison.
 		\item A summary results file that contains the selected comparison from each set using the comparison strategy.
 	\end{itemize}
 	The result files are stored in the \texttt{data/results} folder
 \end{itemize}
 
-
-
-
-
-\subsection*{Embedding Extraction Using the WavLM Model}
-I used the pre-trained \texttt{microsoft/wavlm-base-plus-sv} model, downloaded locally from Hugging Face using the \texttt{transformers} library. The model was loaded in evaluation mode and used to generate speaker-level embeddings through \texttt{WavLMForXVector}. Input waveforms were prepared via the associated \texttt{Wav2Vec2FeatureExtractor}, ensuring correct sampling rate and tensor formatting.
-
-\subsection*{Audio Preprocessing}
-Only audio files matching the pattern \texttt{shortpassage*.wav} were retained from the ABI-1 Corpus. Each file was resampled to 16\,kHz using \texttt{torchaudio.transforms.Resample} and saved as NumPy arrays (\texttt{.npy}) for efficient processing. This ensured compatibility with the WavLM model while reducing preprocessing overhead during embedding extraction.
-
-\subsection*{Aggregation and Similarity Computation}
-Each speaker’s embeddings were aggregated by concatenating all available utterance-level vectors. Pairwise cosine similarities were computed for:
-\begin{itemize}
-	\item Intra-speaker comparisons (same speaker, different recordings)
-	\item Inter-speaker comparisons (different speakers)
-\end{itemize}
-The \texttt{torch.nn.CosineSimilarity} function was used to calculate similarity values. These were saved into both raw and summary CSV files for further evaluation.
-
-\subsection*{Dimensionality Reduction and Visualization}
-To analyze speaker embedding separability, I plotted cosine similarity distributions using \texttt{seaborn} histograms and KDE curves. Separate visualizations were generated for:
-\begin{itemize}
-	\item Same-speaker pairs
-	\item Different-speaker same-gender pairs
-	\item Cross-gender speaker pairs
-\end{itemize}
-Range plots were used to highlight typical similarity intervals, offering visual guidance on threshold selection.
-
-\subsection*{Threshold Selection and Accuracy Evaluation}
-Several thresholds were tested to distinguish between "same" and "different" speaker pairs. Using these thresholds, identification accuracy was computed as the proportion of correctly labeled pairs over total comparisons. Descriptive statistics and distribution plots supported the choice of an optimal threshold that maximized true positives while minimizing false positives.
-
-\subsection*{Confusion Matrix Analysis}
-Confusion matrices were generated at varying thresholds to measure classification performance in terms of true positives, false positives, true negatives, and false negatives. These matrices helped identify critical error patterns and assess the system's robustness under different decision boundaries.
-
-\subsection*{Experimental Setup and Execution Pipeline}
-The full experiment was orchestrated using the script \texttt{execute\_pipeline.py}, which sequentially executes:
-\begin{enumerate}
-	\item Dataset and model download
-	\item Data cleansing and preprocessing
-	\item Embedding extraction
-	\item Similarity computation and analysis
-\end{enumerate}
-Speaker IDs followed a standardized \texttt{Accent-Gender-SpeakerID} format and were later expanded for analysis of accent, gender, and individual trends.
-
-
-
-
-
-
 \section{Evaluation and results}
+
+The analysis presented in this section was conducted using the \texttt{analysis.ipynb} Jupyter notebook to evaluate the performance of the WavLM model in a speaker similarity context. 
+This notebook serves as an important component of the evaluation pipeline, delivering insight into the separability of speaker embeddings and the robustness of the overall system.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/img-self-similarity}
+	\caption{Distribution of cosine similarity scores for same-speaker comparisons. The histogram shows a strong concentration of similarity values in the 0.985–0.997 range, indicating high consistency of embeddings produced by the WavLM model for recordings from the same speaker. A slight leftward tail suggests occasional variability due to acoustic or recording conditions.}
+	\label{fig:img-self-similarity}
+\end{figure}
+
+Figure~\ref{fig:img-self-similarity} presents a histogram showing the distribution of cosine similarity values obtained from intra-speaker comparisons.
+
+As described in Section~\ref{ssec:comparison-strategy}, each value in this plot represents the minimum similarity between two utterances from the same speaker.
+
+We can see that most of the same-speaker similarity scores fall within a high similarity range between approximately 0.985 and 0.997. 
+
+As expected, these results are tightly concentrated around the upper bound of the cosine similarity scale, showing that the WavLM model produces highly consistent embeddings for recordings belonging to the same speaker. 
+
+The distribution also shows a small leftward tail, with a few similarity values extending up to 0.970. These lower outliers could be attributed to several factors, including acoustic variability across recordings, differences in speaking style or vocal effort, or background noise. We are saving the minimum intra-similarity metric and maintaining all low-scoring outliers without offsetting them with possibly better values.
+
+Nevertheless, the number of such occurrences is small relative to the full dataset, and the core of the distribution remains strongly peaked at higher similarity values.
+
+Overall, this analysis confirms the robustness and discriminative power of the speaker embeddings generated by WavLM for intra-speaker comparison tasks, which is both expected and highly desirable. This result can form a solid foundation upon which reliable threshold-based decisions can be made.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/img-similarity}
+	\caption{Distribution of cosine similarity scores for different-speaker comparisons across genders. The histogram shows a wider and lower-centered distribution relative to same-speaker similarities, with the majority of values ranging between 0.55 and 0.85.}
+	\label{fig:img-similarity}
+\end{figure}
+
+
+Figure~\ref{fig:img-similarity} displays the distribution of cosine similarity scores computed between speakers of different genders. Each score represents the maximum similarity between utterances from two distinct male and female speakers.
+
+Unlike the tightly clustered same-speaker distribution shown in Figure~\ref{fig:img-self-similarity}, this distribution is broader and centred significantly lower on the cosine similarity scale. Most values fall between 0.55 and 0.85, with a peak around 0.72. This spread is expected, as embeddings from different speakers—particularly those differing in vocal pitch and timbre due to gender—are naturally more dissimilar.
+
+The model demonstrates a good separation between same-speaker and cross-gender different-speaker comparisons. The minimal overlap between the lower tail of same-speaker scores observed in Figure~\ref{fig:img-self-similarity} and the upper tail of this distribution provides a practical rationale for selecting a threshold that effectively discriminates between same and different speakers.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/img-similarity-same-gender}
+	\caption{Distribution of cosine similarity scores for different-speaker comparisons within the same gender. The histogram distinguishes between male-male (blue) and female-female (green) speaker pairs. Both distributions exhibit higher similarity values compared to cross-gender comparisons, with substantial overlap and peaks in the range of 0.85 to 0.95.}	
+	\label{fig:img-similarity-same-gender}
+\end{figure}
+
+Figure~\ref{fig:img-similarity-same-gender} illustrates the distribution of cosine similarity scores computed between speakers of the same gender, separated into male-male and female-female speaker pairings. Each value corresponds to the maximum similarity score observed among all utterance pairs between two distinct speakers within the same gender category.
+
+In contrast to the cross-gender distribution shown in Figure~\ref{fig:img-similarity}, male and female same-gender distributions are noticeably skewed toward higher similarity values. Most scores lie between 0.80 and 0.97, with both curves peaking at approximately 0.88 to 0.92. This increased similarity is likely due to shared vocal characteristics such as pitch range, speaking style, and formant patterns that are more common within the same gender group.
+
+While these distributions are distinguishable from same-speaker comparisons of Figure~\ref{fig:img-self-similarity}, they exhibit greater overlap with the same-speaker tail, particularly in the upper similarity range, presenting a more challenging case for threshold selection, as overly conservative thresholds may begin to misclassify some different-speaker pairs as same-speaker matches.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/img-similarity-comparison}
+	\caption{Cosine similarity ranges across speaker comparison categories. Each horizontal bar represents the observed similarity range for a particular group: same-speaker pairs (blue), different speakers of the same gender (green and orange), and different speakers of different genders (red). This visual summary highlights the separation between intra- and inter-speaker similarities, supporting the choice of an effective threshold for speaker verification.}
+	\label{fig:img-similarity-comparison}
+\end{figure}
+
+Figure~\ref{fig:img-similarity-comparison} summarises the cosine similarity ranges observed across all comparison categories analysed in the previous figures. Each horizontal bar illustrates the full range of similarity scores for a specific comparison group: same-speaker, male-male, female-female, and cross-gender pairs.
+
+The same-speaker scores form a narrow, high-range band, with values consistently close to 1.0. In contrast, all inter-speaker groups span broader ranges and are centred at lower similarity values. Cross-gender comparisons occupy the lowest band, typically ranging from 0.30 to 0.95, while same-gender comparisons show higher overlap with the same-speaker band, peaking near 0.90 or slightly above.
+
+This summary illustrates that while some overlap exists between same-speaker and same-gender different-speaker comparisons, especially near the upper ends of the distributions, there remains a significant gap that allows for a robust decision threshold definition.
+
+A well-chosen threshold, in the 0.95–0.98 range, can effectively separate same-speaker matches from different-speaker mismatches while minimising false acceptances and rejections.
+
+\subsection{Threshold selection}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/img-confusion-matrix}
+	\caption{Variation of confusion matrix components as a function of the similarity threshold. The plot shows how true positives, true negatives, false positives, and false negatives evolve as the decision boundary is adjusted. This visualisation aids in selecting a threshold that balances correct classification and error rates for speaker verification.}
+	\label{fig:img-confusion-matrix}
+\end{figure}
+
 
 
 \section{Analysis and discussion}
