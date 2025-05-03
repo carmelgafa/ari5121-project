@@ -21,3 +21,6 @@ Log file created
 2025-04-17 18:41:45 - generate_embeddings_information executed in 1842.3499 seconds
 2025-04-17 19:13:15 - compare_embeddings executed in 959.9656 seconds
 2025-04-17 19:14:57 - expand_summary_table executed in 101.5077 seconds
+2025-05-03 15:29:34 - Starting pipeline...
+2025-05-03 15:29:34 - Using GPU: True
+2025-05-03 15:29:34 - create_folders executed in 0.0000 seconds

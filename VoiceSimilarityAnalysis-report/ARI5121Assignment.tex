@@ -321,6 +321,40 @@ These curves reinforce the importance of using the F1 score in threshold selecti
 
 \section{Analysis and discussion}
 
+
+
+\subsection{Random 20 Speakers (Baseline)}
+A baseline clustering analysis where 20 speakers are sampled at random from the dataset. This serves to establish the general separability of speaker embeddings in an uncontrolled setting. The objective is to observe whether the WavLM embeddings naturally form clusters corresponding to different speaker identities.
+
+\subsection{10 Male and 10 Female Speakers from the Same Accent}
+This analysis selects an equal number of male and female speakers from a single accent group, such as Glasgow. The goal is to determine whether the model can distinguish between individual speakers regardless of gender and to explore if gender introduces any clustering bias.
+
+\subsection{20 Speakers of the Same Gender Across Different Accents}
+Here, we sample 20 male or 20 female speakers, ensuring representation from a diverse set of accents. This experiment aims to evaluate whether accent information dominates gender in influencing the clustering of speaker embeddings.
+
+\subsection{Speakers from Two Distinct Accents}
+Speakers are chosen from two distinct accent groups (e.g., Liverpool and Birmingham). The aim is to examine whether the embeddings group more strongly by speaker identity or by accent, and how cleanly the clusters separate based on these two accent categories.
+
+\subsection{Speakers from Confusable Accents}
+This analysis selects speakers from accents that are phonetically similar or often confused in speech systems (e.g., Standard Southern English vs. Inner London). The goal is to visualize whether the model struggles to differentiate between these accent groups in the embedding space.
+
+\subsection{High-Similarity Speaker Pairs}
+Using cosine similarity scores, we identify pairs of speakers whose embeddings are close (high similarity), and sample them for clustering. The objective is to test whether visually their embeddings remain entangled or if the clustering technique can still separate them.
+
+\subsection{Single Accent Across Multiple Age Groups (if metadata is available)}
+This experiment focuses on speakers from a single accent group, but across different age ranges. If speaker age metadata is available, the goal is to assess whether age-related vocal characteristics influence embedding clusters, potentially causing drift within the same accent group.
+
+\subsection{Multiple Utterances from the Same Speaker}
+This investigation samples multiple utterances per speaker, focusing on 5–10 speakers. The analysis verifies intra-speaker consistency in embeddings, and whether utterances from the same speaker form tightly bound clusters regardless of content.
+
+\subsection{Urban vs. Rural Accent Speakers}
+Speakers are selected from urban (e.g., Inner London) and rural (e.g., Cornwall or Northern Wales) accent categories. The aim is to explore whether regional density and social dialectal factors influence clustering behavior in the learned embedding space.
+
+\subsection{Clean vs. Noisy Audio Conditions (if applicable)}
+If the dataset contains variability in audio quality, this experiment compares embeddings from speakers with clean versus noisy recordings. The objective is to assess the robustness of the WavLM model to noise and whether audio artifacts cause undesired drift in clustering.
+
+
+
 \section{Conclusion and future work}
 
 
