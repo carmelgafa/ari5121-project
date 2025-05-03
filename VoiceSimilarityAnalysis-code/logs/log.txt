@@ -24,3 +24,7 @@ Log file created
 2025-05-03 15:29:34 - Starting pipeline...
 2025-05-03 15:29:34 - Using GPU: True
 2025-05-03 15:29:34 - create_folders executed in 0.0000 seconds
+2025-05-03 15:54:41 - download_data executed in 1506.9436 seconds
+2025-05-03 15:56:51 - download_model executed in 130.4849 seconds
+2025-05-03 15:56:54 - cleanse_data executed in 2.2235 seconds
+2025-05-03 15:57:02 - preprocess_data executed in 8.1782 seconds
