@@ -315,7 +315,7 @@ The accuracy curve shows a steep rise beginning around threshold 0.85, eventuall
 
 Recall values are close to zero across most thresholds and only increase sharply at the high end, suggesting that most same-speaker pairs are missed unless a very high threshold is applied. This behaviour is reflected in the F1 score, which stays low until it peaks abruptly at a threshold near 0.97–0.99, indicating a narrow window where precision and recall are reasonably balanced.
 
-These curves reinforce the importance of using the F1 score in threshold selection for imbalanced data. The optimal threshold corresponds to the peak of the F1 score curve, where the model achieves its best-combined performance in identifying same-speaker pairs while maintaining high precision. The maximum F1, calculated from this plot, had a value of \texttt{0.93645} and occurred at threshold \texttt{0.98}.
+These curves reinforce the importance of using the F1 score in threshold selection for imbalanced data. The optimal threshold corresponds to the peak of the F1 score curve, where the model achieves its best-combined performance in identifying same-speaker pairs while maintaining high precision. The maximum F1, calculated from this plot, had a value of \texttt{0.93645} and occurred at at threshold 0.98
 
 
 
@@ -352,7 +352,6 @@ Speakers are selected from urban (e.g., Inner London) and rural (e.g., Cornwall 
 
 \subsection{Clean vs. Noisy Audio Conditions (if applicable)}
 If the dataset contains variability in audio quality, this experiment compares embeddings from speakers with clean versus noisy recordings. The objective is to assess the robustness of the WavLM model to noise and whether audio artifacts cause undesired drift in clustering.
-
 
 
 \section{Conclusion and future work}
