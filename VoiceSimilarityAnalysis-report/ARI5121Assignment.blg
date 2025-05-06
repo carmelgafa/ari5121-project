@@ -1,15 +1,15 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
 [0] Config.pm:311> INFO - Logfile is 'ARI5121Assignment.blg'
-[76] biber-MSWIN64:340> INFO - === 
-[107] Biber.pm:420> INFO - Reading 'ARI5121Assignment.bcf'
-[180] Biber.pm:994> INFO - Found 3 citekeys in bib section 0
-[189] Biber.pm:4463> INFO - Processing section 0
-[198] Biber.pm:4654> INFO - Looking for bibtex file 'references.bib' for section 0
-[243] bibtex.pm:1713> INFO - LaTeX decoding ...
-[249] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[288] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[288] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[288] Biber.pm:4283> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[288] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[290] bbl.pm:676> INFO - Writing 'ARI5121Assignment.bbl' with encoding 'UTF-8'
-[293] bbl.pm:779> INFO - Output to ARI5121Assignment.bbl
+[157] biber-MSWIN64:340> INFO - === 
+[188] Biber.pm:420> INFO - Reading 'ARI5121Assignment.bcf'
+[264] Biber.pm:994> INFO - Found 3 citekeys in bib section 0
+[273] Biber.pm:4463> INFO - Processing section 0
+[281] Biber.pm:4654> INFO - Looking for bibtex file 'references.bib' for section 0
+[340] bibtex.pm:1713> INFO - LaTeX decoding ...
+[351] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[392] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[392] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[392] Biber.pm:4283> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[392] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[394] bbl.pm:676> INFO - Writing 'ARI5121Assignment.bbl' with encoding 'UTF-8'
+[397] bbl.pm:779> INFO - Output to ARI5121Assignment.bbl
