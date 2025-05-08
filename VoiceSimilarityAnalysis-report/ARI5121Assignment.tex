@@ -341,6 +341,11 @@ In the previous sections, we discussed speaker voice similarity at length, and w
 
 In this analysis, dimensionality reduction was carried out using Principal Component Analysis, which projected the high-dimensional embeddings into a two-dimensional space, allowing for visual inspection of potential clusters.
 
+A K-Nearest Neighbours classification task was also implemented on the reduced-dimensionality data to evaluate how well the speaker embeddings preserve identity information, where embeddings projected via Principal Component Analysis (PCA) are used as input features to a KNN classifier, with speaker accent (or identity) serving as the target label. 
+
+Using this method, we can assess how distinguishable speakers are in the reduced embedding space by training the classifier on a subset of embeddings and computing the training error. 
+
+The KNN algorithm makes no assumptions about the underlying data distribution and relies solely on distance metrics, aligning well with the cosine-based similarity framework used in our analysis. A low training error would confirm that the embedding space retains strong identity information even after dimensionality reduction.
 
 \subsubsection{Random speakers}
 
@@ -364,7 +369,8 @@ Therefore, we can presume that to assess accent separability better, it may be n
 
 
 
-\subsection{Speakers from two distinct accents}
+
+\subsubsection{Speakers from two distinct accents}
 
 We simplify our investigation of accent comparisons by limiting our analysis to accent pairs. The purpose is to examine how cleanly the clusters separate based on these two accent categories.
 
@@ -398,13 +404,31 @@ Next, we compare speaker embeddings from the Birmingham (\texttt{brm\_001}) and 
 The PCA projection in Figure~\ref{fig:img-cluster-brm-lan} reveals some degree of separation between the accents along both principal components, with Manchester speakers more concentrated on the right and Birmingham speakers leaning toward the left. However, the clusters are not tightly bound, and there is significant overlap between the two groups, particularly within gender divisions, suggesting that while the model encodes some accentual information, it does not strongly distinguish between these two closely related dialects, especially when compared to more phonetically divergent pairs.
 
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/img-knn-shl-ilo.png}
+	\caption{Decision Boundary of K-Nearest Neighbors Classifier for this example.}
+	\label{fig:knn-shl-ilo}
+\end{figure}
+
+Figure~\ref{fig:knn-shl-ilo} illustrates the decision regions learned by a K-Nearest Neighbors classifier applied to speaker embeddings that were projected into two dimensions using Principal Component Analysis as described earlier. Each point in the plot represents an individual utterance embedding, and the shaded regions reflect the classifier’s predicted accent for each area in the 2D space.
+
+The resulting decision boundaries exhibit the following characteristics:
+
+\begin{itemize}
+	\item \textbf{Effective Local Separation:} The classifier creates coherent decision regions around clusters of data points, indicating that the embedding space retains class-discriminative information even after dimensionality reduction.
+	\item \textbf{Nonlinear Boundary Shape:} The jagged boundaries highlight the sensitivity of KNN to local neighbourhood structure, consistent with its non-parametric, instance-based learning nature.
+	\item \textbf{Speaker Identity Preservation:} The relatively compact regions and minimal overlap between distinct classes suggest strong intra-speaker consistency and manageable inter-speaker variability.
+\end{itemize}
+
+The training error for this classification task was found to be \textbf{12.5\%}, reinforcing that even a simple distance-based method like KNN can leverage the structural properties of the embedding space to achieve reasonable classification accuracy.
+
+
+\bigskip
 
 
 
-
-
-
-\subsection{Multiple Utterances from the Same Speaker}
+\subsubsection{Multiple Utterances from the Same Speaker}
 This investigation samples multiple utterances per speaker, focusing on 5–10 speakers. The analysis verifies intra-speaker consistency in embeddings, and whether utterances from the same speaker form tightly bound clusters regardless of content.
 
 
