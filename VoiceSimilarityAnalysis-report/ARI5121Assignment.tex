@@ -9,19 +9,24 @@
 \usepackage{float}
 \usepackage{listings,xcolor}
 
+
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
 		T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
+
 \addbibresource{references.bib}
 
-
 \begin{document}
-		
+	
+	
 	\title{Speaker Voice Similarity Analysis and Evaluation}
+	
 	
 	\author{\IEEEauthorblockN{Carmel Gafa}
 		\date{April 2025}
-		}
+		
+	}
 	
 	\maketitle
 	
@@ -54,7 +59,6 @@
 	
 	The sources do not explicitly describe the recording conditions of the ABI corpus; however, it is mentioned that the speakers were selected by a phonetician, suggesting an effort for a standard quality recording for at least that accent~\cite{najafian2016improving}.
 	
-	
 	\subsection{Signal resampling}
 	\label{ssec:signal-resampling}
 	
@@ -81,7 +85,7 @@
 	
 	$$\tilde{x}[n] = x_{raw}[n] * h[n]$$
 	
-	where $h[n]$ is the impulse response of a low-pass filter, typically a windowed \texttt{sinc} function:
+	Where $h[n]$ is the impulse response of a low-pass filter, typically a windowed \texttt{sinc} function:
 	
 	$$h[n] = \text{sinc}\left(\frac{n}{R}\right) \cdot w[n]$$
 	
@@ -165,7 +169,6 @@
 	
 	This approach will determine the thresholds and results that ensure maximum separation, as the minimum distance between intra- and inter-comparisons will be examined.
 	
-	
 	\subsection{Voice similarity comparison pipeline}
 	
 	\begin{figure}[H]
@@ -184,7 +187,7 @@
 		
 		\item \textbf{Cleanse}. In the next step, the contents of each speaker, in each gender and each accent in the raw data folder, are examined, and only the files matching the pattern \texttt{shortpassage*.wav} are retained. The results are replicated in an identical folder structure in the \texttt{data/cleansed} folder.
 		
-		\item \textbf{Preprocess}. As discussed in Section~\ref{ssec:signal-resampling}, the audio files need to be preprocessed to 16 kHz using \texttt{torchaudio.transforms.Resample} so that their embeddings can be evaluated by the model. In this next step, all the audio files of each speaker, in each gender and accent, in the raw data folder are loaded and resampled. The resulting \texttt{numpy} arrays are stored in an identical folder structure in \texttt{data/preprocessed}.
+		\item \textbf{Preprocess}. As discussed in Section~\ref{ssec:signal-resampling}, the audio files need to be preprocessed to 16 kHz using \texttt{torchaudio.transforms.Resample} so that the model can evaluate their embeddings. In this next step, all the audio files of each speaker, in each gender and accent, in the raw data folder are loaded and resampled. The resulting \texttt{numpy} arrays are stored in an identical folder structure in \texttt{data/preprocessed}.
 		
 		\item \textbf{Embedding calculation}. In the next step, the \texttt{wavlm-base-plus-sv} model calculates the embeddings for each audio data file. Each embedding is a 512-element vector, resulting in a $3 \times 512$ array for each speaker. The embedding information is stored in a dictionary data structure having "\texttt{accent-gender-speaker}" as key and the embedding array as the value during processing. It is then converted to a \texttt{pandas} \texttt{DataFrame} and saved as a pickle file in \texttt{data/embeddings}.
 		
@@ -197,7 +200,6 @@
 		
 		The result files are stored in the \texttt{data/results} folder.
 	\end{itemize}
-	
 	
 	\section{Evaluation and results}
 	\label{scn:evaluation-and-results}
@@ -235,7 +237,7 @@
 	
 	The model demonstrates a good separation between same-speaker and different-gender-different-speaker comparisons. The minimal overlap between the lower tail of same-speaker scores observed in Figure~\ref{fig:img-self-similarity} and the upper tail of this distribution provides a practical rationale for selecting a threshold that effectively discriminates between same and different speakers.
 	
-	We finally examine the distributions of speakers having the same gender so that we can appreciate the effect of pitch on cosine similarity. Although many factors weigh in on this result, we can presume that accent has some prevalence.
+	We finally examine the distributions of speakers of the same gender to appreciate the pitch's effect on cosine similarity. Although many factors weigh in on this result, we can presume that accent has some prevalence.
 	
 	\begin{figure}[H]
 		\centering
@@ -265,7 +267,6 @@
 	
 	For this illustration, we can deduce that a well-chosen threshold, in the 0.95–0.98 range, can effectively separate same-speaker matches from different-speaker mismatches while minimising false acceptances and rejections.
 	
-	
 	\subsection{Threshold selection}
 	
 	In the previous section, we noticed that the number of different-speaker pairs vastly exceeds that of same-speaker pairs, resulting in an insignificant imbalance in the dataset.
@@ -281,6 +282,7 @@
 		\caption{Variation of confusion matrix components as a function of the similarity threshold. The plot shows how true positives, true negatives, false positives, and false negatives evolve as the decision boundary is adjusted. This visualisation aids in selecting a threshold that balances correct classification and error rates for speaker verification.}
 		\label{fig:img-confusion-matrix}
 	\end{figure}
+	
 	
 	Figure~\ref{fig:img-confusion-matrix} illustrates how the components of the confusion matrix evolve as a function of the decision threshold applied to cosine similarity scores.
 	
@@ -303,24 +305,19 @@
 	
 	Recall values are close to zero across most thresholds and only increase sharply at the high end, suggesting that most same-speaker pairs are missed unless a very high threshold is applied. This behaviour is reflected in the F1 score, which stays low until it peaks abruptly at a threshold near 0.97–0.99, indicating a narrow window where precision and recall are reasonably balanced.
 	
-	These curves reinforce the importance of using the F1 score in threshold selection for imbalanced data. The optimal threshold corresponds to the peak of the F1 score curve, where the model achieves its best-combined performance in identifying same-speaker pairs while maintaining high precision. The maximum F1, calculated from this plot, had a value of \texttt{0.93645}, at threshold 0.98
-	
-	% reviewed
+	These curves reinforce the importance of using the F1 score in threshold selection for imbalanced data. The optimal threshold corresponds to the peak of the F1 score curve, where the model achieves its best-combined performance in identifying same-speaker pairs while maintaining high precision. The maximum F1, calculated from this plot, had a value of \texttt{0.93645} and occurred at at threshold 0.98
 	
 	\section{Analysis and discussion}
 	
 	The results from Section~\ref{scn:evaluation-and-results} prove that the model can discriminate well but also reveal critical nuances that merit deeper investigation. The sharply concentrated distribution of same-speaker similarities indicates that the \texttt{WavLM} model reliably encodes speaker identity, producing consistent embeddings across multiple utterances.
 	
-	In contrast, the broader and more dispersed distributions for different-speaker pairs, particularly cross-gender comparisons, suggest that the model effectively captures inter-speaker variation. However, the analysis also shows that same-gender different-speaker comparisons are less cleanly separated from same-speaker pairs, creating a zone of overlap that challenges perfect classification.
+	In contrast, the broader and more dispersed distributions for different-speaker pairs, particularly cross-gender comparisons, suggest that the model effectively captures inter-speaker variation. However, the analysis also shows that same-gender-different-speaker comparisons are less cleanly separated from same-speaker pairs, creating a zone of overlap that challenges perfect classification.
 	
 	The threshold analysis, where we examined confusion matrix components across a broad sweep of decision boundaries, highlights this overlap. 
 	
+	The system achieves excellent precision throughout most thresholds, but recall remains low until a very high threshold is applied, which is expected, as we have seen in Figure~\ref{fig:img-similarity-comparison}; the cosine similarity for the same speakers is concentrated in the higher values, and therefore, we need a high threshold to start eliminating the false negative values. The F1 score, which balances these competing objectives, peaks in a narrow band around 0.98, emphasising the system's sensitivity to small changes in the threshold. These findings demonstrate that while the core architecture performs well, the speaker verification pipeline is inherently sensitive to class imbalance and acoustic similarity within speaker groups. 
 	
-	The system achieves excellent precision throughout most thresholds, but recall remains low until a very high threshold is applied, which is expected, as we have seen in Figure~\ref{fig:img-similarity-comparison}; the cosine similarity for the same speakers is concentrated in the higher values, and therefore, we need a high threshold to start eliminating the false negative values. The F1 score, which balances these competing objectives, peaks in a narrow band around 0.98, emphasising the system's sensitivity to small changes in the threshold.
-	
-	These findings demonstrate that while the core architecture performs well, the speaker verification pipeline is inherently sensitive to class imbalance and acoustic similarity within speaker groups. 
-	
-	Using cosine similarity as a decision metric works well in aggregate but cannot fully resolve confounding edge cases where inter-speaker similarity approximates intra-speaker variation, and therefore, a deeper exploration of the embedding space to understand what patterns, such as gender or accent, might be implicitly captured by the model, and where it might struggle. This section will use clustering analysis through dimensionality reduction to 
+	Using cosine similarity as a decision metric works well in aggregate but cannot fully resolve confounding edge cases where inter-speaker similarity approximates intra-speaker variation, and therefore, a deeper exploration of the embedding space to understand what patterns, such as gender or accent, might be implicitly captured by the model, and where it might struggle. This section will use clustering analysis through dimensionality reduction to visualise speaker comparisons across similar and distant accents. We will also attempt to, very crudely, cluster this information and review the error achieved in such an operation.
 	
 	\subsection{Clustering analysis}
 	
@@ -328,78 +325,57 @@
 	
 	In this analysis, dimensionality reduction was carried out using Principal Component Analysis, which projected the high-dimensional embeddings into a two-dimensional space, allowing for visual inspection of potential clusters.
 	
-	A K-Nearest Neighbours classification task was also implemented on the reduced-dimensionality data to evaluate how well the speaker embeddings preserve identity information, where embeddings projected via Principal Component Analysis (PCA) are used as input features to a KNN classifier, with speaker accent (or identity) serving as the target label. 
-	
-	Using this method, we can assess how distinguishable speakers are in the reduced embedding space by training the classifier on a subset of embeddings and computing the training error. 
-	
-	The KNN algorithm makes no assumptions about the underlying data distribution and relies solely on distance metrics, aligning well with the cosine-based similarity framework used in our analysis. A low training error would confirm that the embedding space retains strong identity information even after dimensionality reduction.
+	A K-Nearest Neighbours classification was also implemented on the reduced-dimensionality data to evaluate how well the speaker embeddings preserve identity information, where embeddings projected via Principal Component Analysis are used as input features to a K-Nearest Neighbours classifier, with speaker accent (or identity) serving as the target label. We can use this method to assess how distinguishable speakers are in the reduced embedding space by training the classifier on a subset of embeddings and computing the training error. The K-Nearest Neighbours classification algorithm makes no assumptions about the underlying data distribution. It relies solely on distance metrics, aligning well with the cosine-based similarity framework used in our analysis. A low training error would confirm that the embedding space retains strong identity information even after dimensionality reduction.
 	
 	\subsubsection{Random speakers}
 	
-	
-	We start with a very high-level cluster analysis, where Principal Component Analysis was carried out on a random embedding from 200 arbitrary speakers. This first analysis was conducted to get a feel of the scenario.
+	We start with a very high-level cluster analysis, where Principal Component Analysis was carried out on a random embedding from 200 arbitrary speakers. This first analysis was conducted to get a feel for the scenario.
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/img-cluster-all}
-		\caption{Principal Component Analysis plot of speaker embeddings for 200 randomly selected speakers. Each point represents a speaker embedding, with marker shape indicating gender and colour indicating accent group. The plot reveals a strong separation by gender along the first principal component, while accent-based clustering appears less distinct, with significant overlap among accent groups.}
+		\caption{Principal Component Analysis plot of speaker embeddings for 200 randomly selected speakers. Each point represents a speaker embedding, with the marker shape indicating gender and colour indicating accent group. The plot reveals a strong separation by gender along the first principal component, while accent-based clustering appears less distinct, with significant overlap among accent groups.}
 		\label{fig:img-cluster-all}
 	\end{figure}
 	
-	
 	The resulting Principal Component Analysis is shown in Figure~\ref{fig:img-cluster-all}. It reveals a clear separation based on gender, where the first principal component strongly encodes gender-specific vocal features. 
 	
-	In contrast, accent-based clustering is far less distinct. The various accent groups appear heavily intermixed within both genders, indicating that accent information is not as prominently captured in the top two principal components. 
+	In contrast, accent-based clustering is far less distinct. The various accent groups appear heavily intermixed between both genders, indicating that accent information is not as prominently captured in the top two principal components. 
 	
-	
-	Therefore, we can presume that to assess accent separability better, it may be necessary to restrict the analysis to specific accent pairs. Overall, this visualisation demonstrates that while the model effectively captures gender characteristics, accent-related differences may be more subtle and require more targeted analysis.
-	
-	
+	We can therefore presume that to assess accent separability better, it may be necessary to restrict the analysis to a limited number of accents; although in some cases, this reduction might also be unfruitful. Overall, this visualisation demonstrates that while the model effectively captures gender characteristics, accent-related differences may be more subtle and require more targeted analysis.
 	
 	
 	\subsubsection{Speakers from two distinct accents}
 	
-	We simplify our investigation of accent comparisons by limiting our analysis to accent pairs. The purpose is to examine how cleanly the clusters separate based on these two accent categories.
+	We simplify our investigation of accent comparisons by limiting our analysis to accent pairs. This exercise examines how cleanly the clusters separate based on these two accent categories.
 	
 	We start by comparing  Scottish Highland (\texttt{shl\_001}) and Inner London (\texttt{ilo\_001}) accents as they offer a valuable test case for evaluating the accent sensitivity of the speaker embeddings. 
-	
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/img-cluster-shl-ilo}
-		\caption{Principal Component Analysis plot of speaker embeddings for Scottish Highland and Inner London  accents. Each point represents a speaker embedding, with marker shape indicating gender (circle for male, triangle for female) and colour representing accent. The visualisation reveals clear separability between the two accents along both principal components, suggesting that the model captures significant accentual differences between rural Scottish and urban London English.}
+		\caption{Principal Component Analysis plot of speaker embeddings for Scottish Highland and Inner London accents. Each point represents a speaker embedding, with marker shape indicating gender (circle for male, triangle for female) and colour representing accent. The visualisation reveals clear separability between the two accents along both principal components, suggesting that the model captures significant accentual differences between rural Scottish and urban London English.}
 		\label{fig:img-cluster-shl-ilo}
 	\end{figure}
-	
 	
 	Apart from being significantly different in geography and sociolinguistic background, these accents are also phonetically distinct, making them suitable for testing whether the embedding space preserves regional phonetic variation.
 	
 	The resulting Principal Component Analysis plot, shown in Figure~\ref{fig:img-cluster-shl-ilo}, demonstrates a clear separation between the two accent groups across both principal components. Speakers from the Inner London group cluster toward the upper right side of the respective gender plot, while Scottish Highland speakers are concentrated on the lower left. This strong separability indicates that the model captures accentual variation effectively when the phonetic contrast between accent groups is significant. The separation persists across male and female speakers, suggesting that the accent features encoded in the embeddings are robust to gender variation.
 	
-	% knn for shl-ilo
-	
-	Figure~\ref{fig:knn-shl-ilo} illustrates the decision regions learned by a K-Nearest Neighbors classifier applied to speaker embeddings that were projected into two dimensions using Principal Component Analysis as described earlier. Each point in the plot represents an individual utterance embedding, and the shaded regions reflect the classifier's predicted accent for each area in the 2D space.
-	
-	The resulting decision boundaries exhibit the following characteristics:
-	
-	\begin{itemize}
-		\item \textbf{Effective Local Separation:} The classifier creates coherent decision regions around clusters of data points, indicating that the embedding space retains class-discriminative information even after dimensionality reduction.
-		\item \textbf{Nonlinear Boundary Shape:} The jagged boundaries highlight the sensitivity of KNN to local neighbourhood structure, consistent with its non-parametric, instance-based learning nature.
-		\item \textbf{Speaker Identity Preservation:} The relatively compact regions and minimal overlap between distinct classes suggest strong intra-speaker consistency and manageable inter-speaker variability.
-	\end{itemize}
-	
+	Figure~\ref{fig:knn-shl-ilo} illustrates the decision regions learned by a K-Nearest Neighbours classifier applied to speaker embeddings that were projected into two dimensions using Principal Component Analysis as described earlier. We notice that the classifier creates coherent decision regions around clusters of data points, indicating that the embedding space retains class-discriminative information even after dimensionality reduction. The relatively compact regions and minimal overlap between distinct classes suggest strong intra-speaker consistency and manageable inter-speaker variability.
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/img-knn-shl-ilo.png}
-		\caption{Decision Boundary of K-Nearest Neighbors Classifier for this example.}
+		\caption{Decision Boundary of K-Nearest Neighbours Classifier for this example.}
 		\label{fig:knn-shl-ilo}
 	\end{figure}
 	
-	The training error for this classification task was found to be \textbf{12.5\%}, reinforcing that even a simple distance-based method like KNN can leverage the structural properties of the embedding space to achieve reasonable classification accuracy.
-	
+	The training error for this classification task is \textbf{12.5\%}, reinforcing that even a simple distance-based method like K-Nearest Neighbours classification can leverage the structural properties of the embedding space to achieve reasonable classification accuracy.
 	
 	\bigskip
+	
+	% reviewed
 	
 	Next, we compare speaker embeddings from the Birmingham (\texttt{brm\_001}) and Manchester (\texttt{lan\_001}) accent groups. These two urban Northern English accents share several phonetic and prosodic characteristics, including flattened intonation and similar vowel fronting, making them suitable for testing the model's sensitivity to subtle regional variation. 
 	
@@ -408,11 +384,11 @@
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/img-cluster-brm-lan}
-		\caption{PCA plot of speaker embeddings for Birmingham and Manchester  accents. Each point represents a speaker embedding, with marker shape indicating gender (circle for male, triangle for female) and colour representing accent. While some accent-based separation is visible, the overall clustering shows considerable overlap, particularly within gender groups, indicating that the model may not strongly distinguish between these two phonetically similar Northern English accents.}
+		\caption{Principal Component Analysis plot of speaker embeddings for Birmingham and Manchester  accents. Each point represents a speaker embedding, with marker shape indicating gender (circle for male, triangle for female) and colour representing accent. While some accent-based separation is visible, the overall clustering shows considerable overlap, particularly within gender groups, indicating that the model may not strongly distinguish between these two phonetically similar Northern English accents.}
 		\label{fig:img-cluster-brm-lan}
 	\end{figure}
 	
-	The PCA projection in Figure~\ref{fig:img-cluster-brm-lan} reveals some degree of separation between the accents along both principal components, with Manchester speakers more concentrated on the right and Birmingham speakers leaning toward the left. However, the clusters are not tightly bound, and there is significant overlap between the two groups, particularly within gender divisions, suggesting that while the model encodes some accentual information, it does not strongly distinguish between these two closely related dialects, especially when compared to more phonetically divergent pairs.
+	The Principal Component Analysis projection in Figure~\ref{fig:img-cluster-brm-lan} reveals some degree of separation between the accents along both principal components, with Manchester speakers more concentrated on the right and Birmingham speakers leaning toward the left. However, the clusters are not tightly bound, and there is significant overlap between the two groups, particularly within gender divisions, suggesting that while the model encodes some accentual information, it does not strongly distinguish between these two closely related dialects, especially when compared to more phonetically divergent pairs.
 	
 	\begin{figure}[h]
 		\centering
