@@ -31,7 +31,9 @@
 \maketitle
 
 \begin{abstract}
-This study investigates the effectiveness of a \texttt{WavLM}-based system in distinguishing between 285 different speakers from the ABI-1 dataset. \end{abstract}
+	This project investigates the effectiveness of the WavLM-base-plus-sv model for speaker voice similarity analysis using the Accents of the British Isles (ABI-1) corpus, which comprises 285 speakers across 14 regional accents. The study implements a fully automated pipeline that includes data cleansing, resampling, embedding extraction, and cosine similarity evaluation. Through intra- and inter-speaker comparisons, the model demonstrated high consistency within individual speakers and meaningful separability across different speakers, especially those differing by gender or accent. A detailed threshold analysis was conducted using F1 score optimization, revealing an optimal similarity cutoff near 0.98. Dimensionality reduction via Principal Component Analysis enabled visual exploration of embedding structure, while a K-Nearest Neighbors classifier was used to assess separability in the reduced space. The model effectively differentiated between phonetically distinct accents but showed reduced performance on similar regional dialects. These findings support the robustness of WavLM embeddings for speaker verification and highlight areas for refinement in accent-sensitive applications.
+\end{abstract}
+
 
 
 
@@ -95,6 +97,15 @@ $$h[n] = \text{sinc}\left(\frac{n}{R}\right) \cdot w[n]$$
 
 Here, $w[n]$ is a window function (like Kaiser, Hamming, etc.) to localize the infinite \texttt{sinc} filter in time.
 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/img-resampling}
+	\caption{Visualization of the signal processing steps applied during audio preprocessing. The top plot shows the original and filtered signals, highlighting the smoothing effect of the filter. The bottom plot illustrates the effect of resampling the filtered signal to a target rate (e.g., 16\,kHz), with the resampled signal closely tracking the filtered one, preserving the original signal’s structure while adjusting its temporal resolution.}
+	\label{fig:img-resampling}
+\end{figure}
+
+
 If, as an example, we consider this function:
 
 \begin{align*}
@@ -135,12 +146,7 @@ So that, for example,
 $$x_{\downarrow 3}[n] = x[0], x[3], x[6], x[9], \dots$$
 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\linewidth]{img/img-resampling}
-	\caption{Visualization of the signal processing steps applied during audio preprocessing. The top plot shows the original and filtered signals, highlighting the smoothing effect of the filter. The bottom plot illustrates the effect of resampling the filtered signal to a target rate (e.g., 16\,kHz), with the resampled signal closely tracking the filtered one, preserving the original signal’s structure while adjusting its temporal resolution.}
-	\label{fig:img-resampling}
-\end{figure}
+
 
 
 
@@ -389,27 +395,7 @@ Apart from being significantly different in geography and sociolinguistic backgr
 
 The resulting Principal Component Analysis plot, shown in Figure~\ref{fig:img-cluster-shl-ilo}, demonstrates a clear separation between the two accent groups across both principal components. Speakers from the Inner London group cluster toward the upper right side of the respective gender plot, while Scottish Highland speakers are concentrated on the lower left. This strong separability indicates that the model captures accentual variation effectively when the phonetic contrast between accent groups is significant. The separation persists across male and female speakers, suggesting that the accent features encoded in the embeddings are robust to gender variation.
 
-
-Next, we compare speaker embeddings from the Birmingham (\texttt{brm\_001}) and Manchester (\texttt{lan\_001}) accent groups. These two urban Northern English accents share several phonetic and prosodic characteristics, including flattened intonation and similar vowel fronting, making them suitable for testing the model's sensitivity to subtle regional variation. 
-
-
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.7\linewidth]{img/img-cluster-brm-lan}
-	\caption{PCA plot of speaker embeddings for Birmingham and Manchester  accents. Each point represents a speaker embedding, with marker shape indicating gender (circle for male, triangle for female) and colour representing accent. While some accent-based separation is visible, the overall clustering shows considerable overlap, particularly within gender groups, indicating that the model may not strongly distinguish between these two phonetically similar Northern English accents.}
-	\label{fig:img-cluster-brm-lan}
-\end{figure}
-
-The PCA projection in Figure~\ref{fig:img-cluster-brm-lan} reveals some degree of separation between the accents along both principal components, with Manchester speakers more concentrated on the right and Birmingham speakers leaning toward the left. However, the clusters are not tightly bound, and there is significant overlap between the two groups, particularly within gender divisions, suggesting that while the model encodes some accentual information, it does not strongly distinguish between these two closely related dialects, especially when compared to more phonetically divergent pairs.
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\linewidth]{img/img-knn-shl-ilo.png}
-	\caption{Decision Boundary of K-Nearest Neighbors Classifier for this example.}
-	\label{fig:knn-shl-ilo}
-\end{figure}
+% knn for shl-ilo
 
 Figure~\ref{fig:knn-shl-ilo} illustrates the decision regions learned by a K-Nearest Neighbors classifier applied to speaker embeddings that were projected into two dimensions using Principal Component Analysis as described earlier. Each point in the plot represents an individual utterance embedding, and the shaded regions reflect the classifier’s predicted accent for each area in the 2D space.
 
@@ -421,15 +407,91 @@ The resulting decision boundaries exhibit the following characteristics:
 	\item \textbf{Speaker Identity Preservation:} The relatively compact regions and minimal overlap between distinct classes suggest strong intra-speaker consistency and manageable inter-speaker variability.
 \end{itemize}
 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/img-knn-shl-ilo.png}
+	\caption{Decision Boundary of K-Nearest Neighbors Classifier for this example.}
+	\label{fig:knn-shl-ilo}
+\end{figure}
+
 The training error for this classification task was found to be \textbf{12.5\%}, reinforcing that even a simple distance-based method like KNN can leverage the structural properties of the embedding space to achieve reasonable classification accuracy.
+
+
+\bigskip
+
+Next, we compare speaker embeddings from the Birmingham (\texttt{brm\_001}) and Manchester (\texttt{lan\_001}) accent groups. These two urban Northern English accents share several phonetic and prosodic characteristics, including flattened intonation and similar vowel fronting, making them suitable for testing the model's sensitivity to subtle regional variation. 
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/img-cluster-brm-lan}
+	\caption{PCA plot of speaker embeddings for Birmingham and Manchester  accents. Each point represents a speaker embedding, with marker shape indicating gender (circle for male, triangle for female) and colour representing accent. While some accent-based separation is visible, the overall clustering shows considerable overlap, particularly within gender groups, indicating that the model may not strongly distinguish between these two phonetically similar Northern English accents.}
+	\label{fig:img-cluster-brm-lan}
+\end{figure}
+
+The PCA projection in Figure~\ref{fig:img-cluster-brm-lan} reveals some degree of separation between the accents along both principal components, with Manchester speakers more concentrated on the right and Birmingham speakers leaning toward the left. However, the clusters are not tightly bound, and there is significant overlap between the two groups, particularly within gender divisions, suggesting that while the model encodes some accentual information, it does not strongly distinguish between these two closely related dialects, especially when compared to more phonetically divergent pairs.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/img-knn-brm-lan.png}
+	\caption{Decision Boundary of K-Nearest Neighbors Classifier on Speaker Embeddings from Birmingham (\texttt{brm\_001}) and Manchester (\texttt{lan\_001}).}
+	\label{fig:knn-brm-lan}
+\end{figure}
+
+
+Figure~\ref{fig:knn-brm-lan} depicts the decision surface produced by a K-Nearest Neighbors classifier applied to speaker embeddings drawn from two closely related regional accents: Birmingham (\texttt{brm\_001}) and Manchester (\texttt{lan\_001}). The embeddings were first projected into two dimensions using Principal Component Analysis, and the classifier was trained to distinguish between the two accent groups.
+
+The resulting decision regions reveal a complex and fragmented landscape. Unlike cases involving phonetically distinct accents, the boundary shown here is highly non-linear and consists of disjoint regions that alternate between the two classes. This fragmentation suggests that the speaker embeddings for Birmingham and Manchester exhibit considerable overlap in the reduced space, making it difficult for the K-Nearest Neighbors classifier to form cohesive and contiguous class regions.
+
+This behavior is not unexpected. Both accents belong to the broader category of Northern English dialects and share a number of prosodic and phonetic traits. As a result, the model’s embeddings for these speakers tend to occupy similar regions in the feature space. When projected to two dimensions, the separation becomes even less pronounced, and the K-Nearest Neighbors classifier—which relies solely on local distance-based decisions—responds by constructing highly localized decision zones.
+
+The scattered nature of the boundary thus reflects the limited discriminative power between these two accents under dimensional compression, and it underscores the difficulty of distinguishing between subtle regional variations using distance-based methods alone. This result aligns with prior observations in the clustering analysis and provides further evidence that accent separability is highly dependent on the magnitude of phonetic differences.
+
+
+
+
 
 
 \bigskip
 
 
 
-\subsubsection{Multiple Utterances from the Same Speaker}
-This investigation samples multiple utterances per speaker, focusing on 5–10 speakers. The analysis verifies intra-speaker consistency in embeddings, and whether utterances from the same speaker form tightly bound clusters regardless of content.
+\subsubsection{Speaker separation}
+This investigation samples multiple utterances per speaker, focusing on 5 speakers. The analysis verifies intra-speaker consistency in embeddings, and whether utterances from the same speaker form tightly bound clusters regardless of content.
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.85\linewidth]{img/img-cluster-speaker-separation.png}
+	\caption{Principal Component Analysis of Speaker Embeddings for Scottish Highlands, Female Speakers. Each triangle represents one of the three utterance embeddings per speaker, projected onto the first two principal components.}
+	\label{fig:pca-shl-female}
+\end{figure}
+
+
+Figure~\ref{fig:pca-shl-female} presents the result of applying Principal Component Analysis to the speaker embeddings of female speakers from the Scottish Highlands accent group (\texttt{shl\_001}). Each speaker in this subset contributed three utterances, resulting in three embeddings per speaker. These embeddings were projected into two dimensions using the first two principal components, and each triangle in the plot corresponds to one of these projected embeddings.
+
+The visualization reveals that for most speakers, the three embeddings lie in close proximity to one another, forming compact clusters. This behavior indicates a high degree of consistency in the representation of speaker identity across different utterances, even though the utterances may vary slightly in content, duration, or prosodic variation. The tight grouping of each speaker’s embeddings supports the effectiveness of the WavLM model in generating stable and speaker-specific representations.
+
+Moreover, the spread of the clusters across the plot shows clear between-speaker variability, suggesting that the model can distinguish among different speakers, even within the same accent and gender group. This result reinforces earlier findings that WavLM embeddings are highly discriminative and preserve speaker-specific features, making them suitable for downstream tasks such as speaker verification or diarization.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/img-knn-speaker-separation.png}
+	\caption{Decision Boundaries of K-Nearest Neighbors Classifier for Multiple Speakers. Each point corresponds to a single utterance embedding projected via Principal Component Analysis. Background regions represent classification zones determined by the K-Nearest Neighbors algorithm.}
+	\label{fig:knn-speaker}
+\end{figure}
+
+
+Figure~\ref{fig:knn-speaker} illustrates the classification boundaries generated by a K-Nearest Neighbors classifier trained on speaker embeddings from several speakers, with each speaker represented by multiple utterance samples. The embeddings were reduced to two dimensions using Principal Component Analysis for visualization purposes, and each dot in the plot corresponds to an individual utterance. Distinct colors indicate different speaker labels, while the shaded background regions show the classifier’s predicted zones.
+
+The visualized decision boundaries highlight a key strength of the K-Nearest Neighbors approach: its responsiveness to local data structure. In this figure, the classifier has effectively partitioned the space into distinct regions around clusters of utterances belonging to individual speakers. These clusters appear well separated, with each group residing predominantly within its own classification zone. This strongly suggests that the WavLM embeddings contain sufficient speaker-specific information, and that dimensionality reduction has preserved this structure to a meaningful extent.
+
+The irregular shape of some boundary regions reflects the instance-based nature of K-Nearest Neighbors, which makes no global assumptions about the data distribution. Despite this, the classifier demonstrates robust performance, producing largely clean separations between speakers.
+
+This visualization confirms that even when multiple speakers are included, and despite the compression to two dimensions, the embedding space remains structured in a way that allows a simple, non-parametric classifier to reliably distinguish between individuals. It supports the broader conclusion that WavLM embeddings are both consistent and discriminative at the speaker level.
 
 
 
@@ -437,6 +499,11 @@ This investigation samples multiple utterances per speaker, focusing on 5–10 s
 
 
 
+This study evaluated the speaker similarity capabilities of the WavLM-base-plus-sv model using the ABI-1 corpus. The model demonstrated high intra-speaker consistency and clear separability from different-speaker embeddings through a detailed analysis of cosine similarity metrics between speaker embeddings, especially in cross-gender cases. Threshold tuning using F1 score optimization further highlighted the system’s robustness when carefully calibrated.
+
+The methodology incorporated a comprehensive preprocessing pipeline, cosine similarity-based evaluation, and dimensionality reduction via Principal Component Analysis. Embedding structures were further assessed through visual clustering and classification using K-Nearest Neighbors. The model exhibited reliable performance in differentiating phonetically distinct accents (e.g., Scottish Highland vs. Inner London), while accent pairs with high phonetic similarity (e.g., Birmingham and Manchester) proved more challenging, indicating areas where model refinement may be beneficial.
+
+Future work could explore the integration of alternative embedding aggregation techniques such as attention-based pooling, and dimensionality reduction methods like t-SNE or UMAP for non-linear structure preservation. Additionally, evaluating WavLM in comparison with other pre-trained models (e.g., ECAPA-TDNN or HuBERT) and in real-time inference contexts could further validate its applicability to speaker diarization and verification pipelines. The insights derived from this study affirm WavLM’s effectiveness in speaker similarity tasks and pave the way for more adaptive, accent-aware speaker identification systems.
 
 \section*{Generative AI}
 
