@@ -22,16 +22,14 @@ def execute_pipeline():
     attempt_gpu = True
 
     log_message(f'Using GPU: {attempt_gpu}')
-    create_folders()
-    download_data()
-    download_model()
-    cleanse_data()
-    preprocess_data()
+    # create_folders()
+    # download_data()
+    # download_model()
+    # cleanse_data()
+    # preprocess_data()
     generate_embeddings_information(attempt_gpu=attempt_gpu)
     compare_embeddings(attempt_gpu=attempt_gpu)
     expand_summary_table()
-
-
 
 if __name__ == '__main__':
 

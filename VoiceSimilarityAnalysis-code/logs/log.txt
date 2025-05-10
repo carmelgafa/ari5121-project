@@ -28,3 +28,13 @@ Log file created
 2025-05-03 15:56:51 - download_model executed in 130.4849 seconds
 2025-05-03 15:56:54 - cleanse_data executed in 2.2235 seconds
 2025-05-03 15:57:02 - preprocess_data executed in 8.1782 seconds
+2025-05-10 09:24:42 - Starting pipeline...
+2025-05-10 09:24:42 - Using GPU: True
+2025-05-10 09:26:30 - cleanse_data executed in 107.7220 seconds
+2025-05-10 09:27:42 - preprocess_data executed in 72.2500 seconds
+2025-05-10 09:51:40 - Starting pipeline...
+2025-05-10 09:51:40 - Using GPU: True
+2025-05-10 10:18:48 - generate_embeddings_information executed in 1628.2887 seconds
+2025-05-10 10:41:53 - compare_embeddings executed in 1384.6656 seconds
+2025-05-10 10:43:30 - expand_summary_table executed in 97.2082 seconds
+2025-05-10 10:43:30 - Pipeline completed.
