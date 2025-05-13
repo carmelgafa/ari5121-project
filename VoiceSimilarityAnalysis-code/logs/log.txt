@@ -38,3 +38,29 @@ Log file created
 2025-05-10 10:41:53 - compare_embeddings executed in 1384.6656 seconds
 2025-05-10 10:43:30 - expand_summary_table executed in 97.2082 seconds
 2025-05-10 10:43:30 - Pipeline completed.
+2025-05-11 10:25:48 - -------------------------------------------------
+2025-05-11 10:25:48 - Starting pipeline...
+2025-05-11 10:25:48 - Using GPU: True
+2025-05-11 10:25:48 - create_folders executed in 0.0000 seconds
+2025-05-11 10:38:11 - download_data executed in 743.2752 seconds
+2025-05-11 10:39:35 - download_model executed in 84.2401 seconds
+2025-05-11 10:40:13 - cleanse_data executed in 37.5594 seconds
+2025-05-11 10:41:18 - preprocess_data executed in 65.4070 seconds
+2025-05-11 11:09:15 - generate_embeddings_information executed in 1676.4693 seconds
+2025-05-11 11:22:03 - compare_embeddings executed in 767.8044 seconds
+2025-05-11 11:23:29 - expand_summary_table executed in 86.8389 seconds
+2025-05-11 11:23:29 - Pipeline completed.
+2025-05-11 11:23:29 - -------------------------------------------------
+2025-05-11 14:14:49 - -------------------------------------------------
+2025-05-11 14:14:49 - Starting pipeline...
+2025-05-11 14:14:49 - Using GPU: False
+2025-05-11 14:14:49 - create_folders executed in 0.0000 seconds
+2025-05-11 14:25:22 - download_data executed in 632.4625 seconds
+2025-05-11 14:26:58 - download_model executed in 96.1245 seconds
+2025-05-11 14:27:41 - cleanse_data executed in 42.7167 seconds
+2025-05-11 14:28:44 - preprocess_data executed in 62.7654 seconds
+2025-05-11 16:10:55 - generate_embeddings_information executed in 6131.2339 seconds
+2025-05-11 16:21:10 - compare_embeddings executed in 614.5923 seconds
+2025-05-11 16:22:38 - expand_summary_table executed in 88.7984 seconds
+2025-05-11 16:22:38 - Pipeline completed.
+2025-05-11 16:22:38 - -------------------------------------------------
