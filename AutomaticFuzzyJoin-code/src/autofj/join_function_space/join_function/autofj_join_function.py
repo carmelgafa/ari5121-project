@@ -1,11 +1,11 @@
-from .preprocessor import Preprocessor
-from .tokenizer import Tokenizer
-from .token_weight import TokenWeight
-from .distance_function import DistanceFunction
+from autofj.join_function_space.join_function.preprocessor import Preprocessor
+from autofj.join_function_space.join_function.tokenizer import Tokenizer
+from autofj.join_function_space.join_function.token_weight import TokenWeight
+from autofj.join_function_space.join_function.distance_function import DistanceFunction
 import pandas as pd
 import os
 import pickle
-from ...utils import makedir
+from autofj.utils import makedir
 
 
 class AutoFJJoinFunction(object):

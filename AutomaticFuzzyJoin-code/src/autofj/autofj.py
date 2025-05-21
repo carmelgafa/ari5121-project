@@ -1,4 +1,4 @@
-from .join_function_space.autofj_join_function_space import AutoFJJoinFunctionSpace
+from join_function_space.autofj_join_function_space import AutoFJJoinFunctionSpace
 from .blocker.autofj_blocker import AutoFJBlocker
 from .optimizer.autofj_multi_column_greedy_algorithm import \
     AutoFJMulticolGreedyAlgorithm
