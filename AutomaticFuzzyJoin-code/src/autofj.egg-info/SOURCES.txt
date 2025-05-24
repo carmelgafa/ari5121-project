@@ -82,6 +82,9 @@ src/autofj/benchmark/Legislature/right.csv
 src/autofj/benchmark/Magazine/gt.csv
 src/autofj/benchmark/Magazine/left.csv
 src/autofj/benchmark/Magazine/right.csv
+src/autofj/benchmark/Maltese/gt.csv
+src/autofj/benchmark/Maltese/left.csv
+src/autofj/benchmark/Maltese/right.csv
 src/autofj/benchmark/MemberOfParliament/gt.csv
 src/autofj/benchmark/MemberOfParliament/left.csv
 src/autofj/benchmark/MemberOfParliament/right.csv
@@ -180,3 +183,4 @@ src/autofj/optimizer/__init__.py
 src/autofj/optimizer/autofj_multi_column_greedy_algorithm.py
 src/autofj/optimizer/autofj_single_column_greedy_algorithm.py
 tests/test_autofj.py
+tests/test_autofj_all.py
